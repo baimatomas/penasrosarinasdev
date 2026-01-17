@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#050f16">
+  <title>Peñas Rosarinas</title>
+  
+  <!-- Fuente Clean, Moderna y con peso -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* PALETA ARGENTINA PODEROSA & AZULADA */
+      --bg: #050f16;           /* Azul noche profundo */
+      --surface: #0e1a24;      /* Azul grisáceo muy oscuro */
+      --surface-light: #1c2b38;/* Para inputs/hovers */
+      
+      --celeste: #75AADB;      /* Celeste Bandera Vibrante */
+      --celeste-dim: rgba(117, 170, 219, 0.2);
+      
+      --gold: #F4B942;         /* Dorado Sol de Mayo */
+      --gold-dark: #b08d00;    
+      
+      --text: #ffffff;         /* Blanco puro */
+      --text-muted: #9abacf;   /* Gris azulado claro */
+      
+      --radius: 20px;
+      --header-height: 85px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      margin: 0;
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% -20%, #153c5e 0%, var(--bg) 60%);
+      background-attachment: fixed;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 500px;
+      padding: 0 16px 40px 16px;
+      position: relative;
+    }
+
+    /* --- HEADER ARGENTINO --- */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5, 15, 22, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      
+      margin: 0 -16px 0 -16px;
+      padding: 10px 24px;
+      
+      display: flex; justify-content: space-between; align-items: center;
+      height: var(--header-height);
+      
+      border-bottom: 1px solid rgba(117, 170, 219, 0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .brand-container { display: flex; flex-direction: column; }
+    
+    h1 {
+      font-size: 22px; font-weight: 900; margin: 0;
+      background: linear-gradient(to right, var(--celeste), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      filter: drop-shadow(0 0 10px rgba(117,170,219,0.3));
+    }
+    .subtitle {
+      font-size: 10px; color: var(--gold); 
+      text-transform: uppercase; letter-spacing: 1.5px; 
+      font-weight: 700; margin-top: 4px;
+      text-shadow: 0 0 10px rgba(244, 185, 66, 0.4);
+    }
+
+    /* Ícono Malvinas (Link a YouTube) */
+    .header-icon-box {
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(117, 170, 219, 0.3);
+      box-shadow: 0 0 20px rgba(117, 170, 219, 0.15);
+      overflow: hidden;
+      padding: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    
+    .header-icon-img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0.9;
+    }
+
+    /* --- BIG BUTTON (Animation & Interaction) --- */
+    .hero-btn-container {
+      display: flex; justify-content: center; 
+      margin: 30px 0 30px 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      max-height: 200px; opacity: 1; transform: scale(1);
+    }
+    .hero-btn-container.hidden {
+      max-height: 0; opacity: 0; transform: scale(0.8); margin: 0; overflow: hidden; pointer-events: none;
+    }
+    
+    .big-btn {
+      width: 155px; height: 155px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #1c2b38, #0a141c);
+      color: var(--text);
+      
+      border: 3px solid transparent;
+      background-image: linear-gradient(#0e1a24, #0e1a24), 
+                        linear-gradient(to bottom, var(--celeste), #fff, var(--celeste));
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+
+      box-shadow: 
+        0 10px 0 #04080b, 
+        0 20px 40px rgba(0,0,0,0.6), 
+        inset 0 0 20px rgba(117, 170, 219, 0.1);
+      
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+
+    @keyframes pulse-glow {
+      0% { transform: scale(1); box-shadow: 0 10px 0 #04080b, 0 20px 40px rgba(0,0,0,0.6); }
+      50% { transform: scale(1.04); box-shadow: 0 10px 0 #04080b, 0 25px 50px rgba(117, 170, 219, 0.35); }
+      100% { transform: scale(1); box-shadow: 0 10px 0 #04080b, 0 20px 40px rgba(0,0,0,0.6); }
+    }
+
+    .big-btn:active { 
+      animation: none;
+      transform: translateY(10px) scale(0.98); 
+      box-shadow: 
+        0 0 0 #04080b, 
+        inset 0 4px 20px rgba(0,0,0,0.9), 
+        0 0 20px var(--gold);
+      border-color: var(--gold);
+    }
+
+    .big-btn span { display: block; pointer-events: none; }
+    .big-icon { font-size: 52px; margin-bottom: 6px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
+    .big-label { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+    /* --- TABS --- */
+    .segmented-control {
+      position: sticky; top: calc(var(--header-height) + 12px); z-index: 90;
+      display: flex; background: rgba(14, 26, 36, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 5px; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      overflow-x: auto; /* Para evitar desbordes en móviles pequeños */
+    }
+    .segmented-control.hidden { display: none; }
+
+    .segment-btn {
+      flex: 1; padding: 12px; text-align: center;
+      font-size: 12px; font-weight: 700; color: var(--text-muted);
+      border-radius: 12px; background: transparent; transition: all 0.2s ease; border: none; cursor: pointer;
+      white-space: nowrap;
+    }
+    .segment-btn.selected {
+      background: var(--surface-light);
+      color: var(--celeste);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      border: 1px solid rgba(117, 170, 219, 0.2);
+    }
+
+    /* --- CARDS & RULES --- */
+    .item {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px; margin-bottom: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.03);
+      position: relative; overflow: hidden;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .item:active { background: var(--surface-light); transform: scale(0.98); }
+    
+    .item::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+      background: linear-gradient(to bottom, var(--celeste) 30%, #fff 50%, var(--celeste) 70%); 
+    }
+
+    .pena-header { display: flex; align-items: center; gap: 16px; }
+    .thumb { 
+      width: 56px; height: 56px; border-radius: 16px; object-fit: cover; 
+      background: #05080a; color: var(--gold);
+      display: flex; align-items: center; justify-content: center; font-size: 26px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    }
+    .pena-info { flex: 1; }
+    .pena-info strong { display: block; font-size: 17px; margin-bottom: 5px; color: #fff; letter-spacing: 0.3px; }
+    .pena-date { font-size: 13px; color: var(--text-muted); font-weight: 500; display:flex; align-items:center; gap:4px;}
+    
+    .action-icon {
+      color: var(--text-muted); padding: 10px; border-radius: 50%; 
+      background: rgba(255,255,255,0.03); font-size: 18px; cursor: pointer;
+    }
+    
+    .pena-detail {
+      margin-top: 18px; padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+    
+    .detail-section { margin-top: 12px; font-size: 15px; color: #d0d0d0; line-height: 1.5; }
+    .detail-label { color: var(--celeste); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+
+    /* Rules specific styles */
+    .rule-title {
+        color: var(--gold);
+        font-size: 13px; font-weight: 800; letter-spacing: 1px;
+        text-transform: uppercase; margin-bottom: 10px;
+    }
+    .rule-content {
+        font-size: 15px; line-height: 1.6; color: #e0e0e0;
+    }
+    .rule-link {
+        color: var(--celeste); text-decoration: none; border-bottom: 1px solid rgba(117,170,219,0.5);
+    }
+
+    /* --- FORMULARIOS & BACK BUTTONS --- */
+    .form-header-row {
+        display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .btn-back-circle {
+        background: rgba(117, 170, 219, 0.1);
+        border: 1px solid rgba(117, 170, 219, 0.2);
+        color: var(--celeste);
+        width: 36px; height: 36px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-back-circle:active { background: var(--celeste); color: #000; }
+
+    .form-group { margin-bottom: 26px; text-align: left; }
+    .form-label { display: block; font-size: 11px; color: var(--gold); margin-bottom: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+    
+    input, select {
+      width: 100%; padding: 18px; background: var(--surface-light); 
+      border: 2px solid transparent;
+      border-radius: 16px; color: #fff; font-size: 16px; font-family: inherit;
+      transition: all 0.2s;
+    }
+    select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2375AADB%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 20px center; background-size: 12px; }
+    input:focus, select:focus { border-color: var(--celeste); background: #26384a; box-shadow: 0 0 15px var(--celeste-dim); }
+    
+    /* Chips */
+    .chips-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    .chip {
+      padding: 10px 20px; background: rgba(255,255,255,0.05); border-radius: 50px;
+      font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer;
+      border: 1px solid transparent; transition: all 0.2s;
+      user-select: none;
+    }
+    .chip.selected { 
+      background: var(--celeste); color: #000; 
+      border-color: var(--celeste); font-weight: 700;
+      box-shadow: 0 0 15px var(--celeste-dim);
+    }
+    .btn-small { width: 48px; background: var(--surface-light); color: var(--gold); font-size: 24px; border-radius: 14px; border:none; cursor: pointer; display:flex; align-items:center; justify-content:center; }
+    .btn-small:active { background: var(--gold); color: #000; }
+
+    /* Upload */
+    .upload-box {
+      border: 2px dashed rgba(117, 170, 219, 0.3); border-radius: 16px;
+      padding: 30px; text-align: center; color: var(--text-muted); cursor: pointer;
+      background: rgba(0,0,0,0.2); transition: all 0.2s;
+    }
+    .upload-box:active { background: rgba(117, 170, 219, 0.1); border-color: var(--celeste); }
+
+    /* Botones Acción */
+    .form-footer { display: flex; gap: 16px; margin-top: 40px; }
+    .btn-main {
+      flex: 1; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-main:active { transform: scale(0.97); }
+    .btn-cancel { background: transparent; color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+    .btn-save { 
+      background: linear-gradient(135deg, var(--celeste), #3a82c4); 
+      color: #000; box-shadow: 0 8px 20px rgba(58, 130, 196, 0.3); 
+    }
+
+    /* Stats */
+    .stat-row { 
+      display: flex; align-items: center; gap: 14px; margin-bottom: 18px; 
+      padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;
+      animation: fadeIn 0.5s ease;
+      border-left: 3px solid transparent;
+    }
+    .stat-row:nth-of-type(2), .stat-row:nth-of-type(3), .stat-row:nth-of-type(4) {
+       border-left-color: var(--gold);
+       background: linear-gradient(90deg, rgba(244, 185, 66, 0.05), transparent);
+    }
+
+    .stat-bar-track { flex: 1; height: 10px; background: rgba(0,0,0,0.3); border-radius: 100px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--celeste), #fff); border-radius: 100px; box-shadow: 0 0 10px var(--celeste-dim); transition: width 1s ease; }
+
+    /* TRUCO STYLES */
+    .truco-container { animation: fadeIn 0.4s ease; }
+    .truco-board {
+      display: flex; gap: 10px; justify-content: center;
+      margin-top: 20px;
+    }
+    .truco-col {
+      flex: 1; 
+      background: rgba(255,255,255,0.05); 
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 10px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .truco-header {
+      font-size: 16px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 10px; text-align: center; height: 40px; display:flex; align-items:center;
+    }
+    .fosforos-area {
+      width: 100%; min-height: 250px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Dos columnas de fosforos por equipo */
+      gap: 5px;
+      padding: 10px;
+      align-content: start;
+    }
+    .fosforo-group {
+      width: 40px; height: 40px; margin: 0 auto;
+    }
+    .truco-controls {
+      display: flex; width: 100%; gap: 8px;
+    }
+    .btn-score {
+      flex: 1; height: 50px; border-radius: 12px; border: none; cursor: pointer;
+      font-size: 20px; font-weight: bold;
+    }
+    .btn-plus { background: var(--surface-light); color: var(--celeste); border: 1px solid rgba(117,170,219,0.2); }
+    .btn-plus:active { background: var(--celeste); color: #000; }
+    .btn-minus { background: rgba(255,255,255,0.03); color: var(--text-muted); }
+    .btn-minus:active { background: rgba(255,255,255,0.1); }
+
+    /* Login */
+    #login {
+      position: fixed; inset: 0; background: #050f16; z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px; 
+      background-image: radial-gradient(circle at 50% 30%, #153c5e 0%, #000 70%);
+    }
+    .login-card { width: 100%; max-width: 320px; text-align: center; animation: fadeIn 0.8s ease; }
+    .login-input { 
+      text-align: center; letter-spacing: 8px; font-size: 32px; font-weight: 700; margin-bottom: 30px; 
+      background: rgba(0,0,0,0.4); border-color: var(--gold); color: var(--gold); 
+      height: 70px; border-radius: 20px;
+    }
+    
+    /* Utilities */
+    .spinner { width: 22px; height: 22px; border: 3px solid rgba(0,0,0,0.1); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to {transform: rotate(360deg);} }
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+    .modal img { max-width: 100%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+
+  </style>
+</head>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-card">
+    <div style="font-size:64px;margin-bottom:24px;filter:drop-shadow(0 0 25px var(--celeste))">🇦🇷</div>
+    <h2 style="margin-bottom:8px;color:var(--text);font-size:28px">Peñas Rosarinas</h2>
+    <p style="color:var(--gold);margin-bottom:48px;font-size:12px;letter-spacing:2px;font-weight:700">ACCESO RESTRINGIDO</p>
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:12px;font-style:italic;opacity:0.5">Bienvenido</p>
+    
+    <input id="pass" type="password" placeholder="••••" class="login-input" maxlength="20" />
+    <button onclick="login()" class="btn-main btn-save" style="width:100%">Desbloquear</button>
+    
+    <div id="err" style="color:#ff6b6b;margin-top:24px;display:none;font-weight:600;background:rgba(255,107,107,0.1);padding:10px;border-radius:10px">Código incorrecto</div>
+    <div style="margin-top:30px;font-size:13px;color:var(--celeste);cursor:pointer;opacity:0.8;text-decoration:underline" onclick="togglePass()">Mostrar contraseña</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app-container" id="mainContainer" style="display:none">
+  
+  <!-- HEADER CON LOGO MALVINAS -->
+  <header id="mainHeader">
+    <div class="brand-container">
+      <h1>Peñas Rosarinas</h1>
+      <div class="subtitle">AL GRAN PUEBLO ARGENTINO SALUD</div>
+    </div>
+    <a href="https://www.youtube.com/watch?v=08TNhQlTxhw&list=RD08TNhQlTxhw" target="_blank" class="header-icon-box">
+      <!-- IMAGEN MALVINAS -->
+      <img src="https://iconape.com/wp-content/png_logo_vector/malvinas-argentinas-logo.png" class="header-icon-img" alt="Malvinas Argentinas" />
+    </a>
+  </header>
+
+  <!-- BIG BUTTON -->
+  <div id="heroSection" class="hero-btn-container">
+    <button class="big-btn" onclick="start()">
+      <span class="big-icon">🍻</span>
+      <span class="big-label">Iniciar<br>Peña</span>
+    </button>
+  </div>
+
+  <!-- TABS (Ahora con Truco) -->
+  <div class="segmented-control" id="navTabs">
+    <button id="btnLoad" class="segment-btn selected" onclick="load()">Historial</button>
+    <button id="btnTruco" class="segment-btn" onclick="trucoInit()">Truco</button>
+    <button id="btnStats" class="segment-btn" onclick="stats()">Estadísticas</button>
+    <button id="btnRules" class="segment-btn" onclick="rules()">Reglamento</button>
+  </div>
+
+  <!-- Contenedor -->
+  <div id="app"></div>
+
+</div>
+
+<!-- Lightbox Modal -->
+<div id="modal" class="modal" onclick="closeModal()">
+  <img id="modalImg" src="" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+/* =========================================
+   CONFIGURACIÓN & API
+   ========================================= */
+const SUPABASE_URL = "https://zzwnvmgiyduwncjpakmf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ZOT1mcAKZ4W21uF1mpj6YA_rvPQNruU";
+const app = document.getElementById('app');
+let editingPenaId = null;
+let selectedPhotoFiles = [];
+let penaComments = [];
+
+// Variables Truco
+let trucoState = {
+  penaId: null,
+  nosotros: [],
+  ellos: [],
+  puntosNos: 0,
+  puntosEllos: 0
+};
+
+// Variable para guardar el token en memoria o leerlo de localStorage
+let sessionToken = localStorage.getItem('pena_token');
+
+const API_HEADERS = { apikey: SUPABASE_KEY };
+
+function supaFetch(path, options={}, isStorage=false){
+  const url = isStorage ? `${SUPABASE_URL}/${path}` : `${SUPABASE_URL}/rest/v1/${path}`;
+  
+  // Headers base
+  const headers = Object.assign({}, API_HEADERS, options.headers||{});
+
+  // SI TENEMOS TOKEN, LO USAMOS EN LUGAR DE LA APIKEY PARA AUTH
+  if (sessionToken) {
+    headers['Authorization'] = `Bearer ${sessionToken}`;
+  } else {
+    // Fallback por si acaso, aunque en modelo privado esto fallará para lectura
+    headers['Authorization'] = 'Bearer ' + SUPABASE_KEY;
+  }
+
+  return fetch(url, Object.assign({ cache:'no-store' }, options, { headers }))
+    .then(res => {
+      // Si el token expiró o es inválido (401), cerramos sesión
+      if(res.status === 401 && sessionToken) {
+         localStorage.removeItem('pena_token');
+         localStorage.removeItem('pena_auth');
+         sessionToken = null;
+         location.reload(); 
+      }
+      return res;
+    });
+}
+
+function togglePass(){ const i=document.getElementById('pass'); i.type=i.type==='password'?'text':'password'; }
+
+async function login(){
+  const passInput = document.getElementById('pass').value || '';
+  const errDiv = document.getElementById('err');
+  const btn = document.querySelector('#login button');
+  
+  errDiv.style.display='none';
+  if(!passInput.trim()){ errDiv.style.display='block'; return; }
+
+  // Feedback visual
+  const originalText = btn.innerText;
+  btn.innerText = "Verificando...";
+  btn.disabled = true;
+
+  try {
+    const emailFijo = "toto@penas.com";
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: emailFijo, password: passInput })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.access_token) { throw new Error('Pass incorrecta'); }
+
+    sessionToken = data.access_token;
+    localStorage.setItem('pena_token', sessionToken);
+    localStorage.setItem('pena_auth', 'ok'); 
+
+    document.getElementById('login').style.display='none';
+    document.getElementById('mainContainer').style.display='block';
+    load();
+
+  } catch(e) {
+    console.warn(e); errDiv.textContent = "Código incorrecto"; errDiv.style.display = 'block';
+  } finally {
+    btn.innerText = originalText; btn.disabled = false;
+  }
+}
+
+function openModal(url){ document.getElementById('modalImg').src=url; document.getElementById('modal').style.display='flex'; }
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+
+/* =========================================
+   DATE HELPER
+   ========================================= */
+function formatDateSafe(dateString) {
+  if(!dateString) return '';
+  const parts = dateString.split('-');
+  if(parts.length < 3) return dateString;
+  const year = parseInt(parts[0]);
+  const month = parseInt(parts[1]) - 1; 
+  const day = parseInt(parts[2]);
+  const date = new Date(year, month, day);
+  return date.toLocaleDateString('es-AR', {weekday:'short', day:'numeric', month:'short'});
+}
+
+/* =========================================
+   UI LOGIC & RENDERING
+   ========================================= */
+
+async function start(prefill){
+  document.getElementById('navTabs').classList.add('hidden');
+  document.getElementById('heroSection').classList.add('hidden');
+  
+  const partJson = await (await supaFetch('participantes?select=nombre&order=nombre.asc')).json();
+  const sedJson  = await (await supaFetch('sedes?select=nombre&order=nombre.asc')).json();
+  const part = Array.isArray(partJson)?partJson.map(x=>x.nombre):[];
+  const sed  = Array.isArray(sedJson)?sedJson.map(x=>x.nombre):[];
+  const all=[...new Set([...part,...sed])].sort();
+
+  const preSede=prefill?.sede||'';
+  const preParticipantes=new Set(prefill?.participantes||[]);
+  const preFecha = prefill?.fecha || new Date().toLocaleDateString('en-CA'); 
+
+  app.innerHTML=`
+    <div style="padding-top:10px; animation: fadeIn 0.3s ease">
+      <div class="form-header-row">
+         <button class="btn-back-circle" onclick="cancelStart()">←</button>
+         <h2 style="margin:0;color:var(--text);font-size:24px">${editingPenaId ? 'Editar Peña' : 'Nueva Peña'}</h2>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">FECHA</label>
+        <input id="penaFecha" type="date" value="${preFecha}" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">SEDE</label>
+        <div class="chips-container" id="sedes">${all.map(s=>`<div class="chip" data-sede="${s}">${s}</div>`).join('')}</div>
+        <div class="chips-container" style="flex-wrap:nowrap">
+          <input id="newSede" placeholder="Agregar nueva sede..." style="padding:10px;font-size:14px" />
+          <button id="addSedeBtn" class="btn-small">+</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ASISTENTES</label>
+        <div class="chips-container" id="participantes">${part.map(p=>`<div class="chip" data-nombre="${p}">${p}</div>`).join('')}</div>
+        <div class="chips-container" style="flex-wrap:nowrap">
+          <input id="newParticipante" placeholder="Agregar nuevo..." style="padding:10px;font-size:14px" />
+          <button id="addParticipanteBtn" class="btn-small">+</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">FOTOS</label>
+        <div style="display:flex; gap:12px; margin-bottom: 12px">
+          <label for="fotoCam" class="upload-box" style="flex:1; padding:20px 10px; border-style:solid; background:rgba(117,170,219,0.05)">
+            <div style="font-size:24px;margin-bottom:6px">📷</div>
+            <div style="font-size:12px;font-weight:700;color:var(--celeste)">CÁMARA</div>
+          </label>
+          <label for="foto" class="upload-box" style="flex:1; padding:20px 10px">
+            <div style="font-size:24px;margin-bottom:6px">🖼️</div>
+            <div style="font-size:12px;font-weight:700">GALERÍA</div>
+          </label>
+        </div>
+        <input id="foto" type="file" accept="image/*" multiple style="display:none" />
+        <input id="fotoCam" type="file" accept="image/*" capture="environment" style="display:none" />
+        <div id="fotoPreview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">COMENTARIOS</label>
+        <div class="chips-container" style="flex-wrap:nowrap;margin-bottom:10px">
+          <input id="newComment" placeholder="Escribir nota..." style="padding:10px;font-size:14px" />
+          <button id="addCommentBtn" class="btn-small">+</button>
+        </div>
+        <div id="commentsList" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <div class="form-footer">
+        <button onclick="cancelStart()" class="btn-main btn-cancel">Cancelar</button>
+        <button id="saveBtn" onclick="save()" class="btn-main btn-save">
+          <span class="spinner" style="display:none"></span>
+          <span class="btn-text">Guardar</span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll('#sedes .chip').forEach(p=>{
+    p.onclick=()=>{document.querySelectorAll('#sedes .chip').forEach(x=>x.classList.remove('selected'));p.classList.add('selected');};
+    if(preSede && p.dataset.sede===preSede) p.classList.add('selected');
+  });
+  document.querySelectorAll('#participantes .chip').forEach(p=>{
+    p.onclick=()=>p.classList.toggle('selected');
+    if(preParticipantes.has(p.dataset.nombre)) p.classList.add('selected');
+  });
+
+  const handleFiles = (files) => {
+    const preview = app.querySelector('#fotoPreview'); if(!preview) return;
+    [...files].forEach(f => {
+      selectedPhotoFiles.push(f);
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(f);
+      img.style.width = '100%'; img.style.borderRadius = '8px'; img.style.aspectRatio = '1'; img.style.objectFit = 'cover';
+      preview.appendChild(img);
+    });
+  };
+
+  document.getElementById('foto').onchange = e => { handleFiles(e.target.files); e.target.value = ''; };
+  document.getElementById('fotoCam').onchange = e => { handleFiles(e.target.files); e.target.value = ''; };
+
+  penaComments = prefill?.comentarios ? (Array.isArray(prefill.comentarios)? [...prefill.comentarios] : [prefill.comentarios]) : [];
+  const renderComments = () => {
+    const list = app.querySelector('#commentsList'); if(!list) return;
+    list.innerHTML = penaComments.map((c,i)=>`
+      <div style="background:var(--surface-light);padding:12px;border-radius:10px;font-size:14px;display:flex;justify-content:space-between;align-items:center">
+        <span>${c}</span><span style="color:#ff6b6b;font-weight:bold;margin-left:10px;cursor:pointer;padding:4px" onclick="removeComment(${i})">✕</span>
+      </div>`).join('');
+  };
+  window.removeComment = function(i){ penaComments.splice(i,1); renderComments(); };
+  document.getElementById('addCommentBtn').onclick = () => {
+    const v = document.getElementById('newComment').value.trim();
+    if(!v) return; penaComments.push(v); document.getElementById('newComment').value = ''; renderComments();
+  };
+  renderComments();
+
+  document.getElementById('addSedeBtn').onclick = () => {
+    const input = document.getElementById('newSede'); const val = input.value.trim(); if(!val) return;
+    const container = document.getElementById('sedes');
+    let chip = [...container.querySelectorAll('.chip')].find(x => x.dataset.sede === val);
+    if(!chip){
+      chip = document.createElement('div'); chip.className = 'chip'; chip.dataset.sede = val; chip.textContent = val;
+      chip.onclick = () => { container.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected')); chip.classList.add('selected'); };
+      container.appendChild(chip);
+    }
+    container.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected')); chip.classList.add('selected'); input.value = '';
+  };
+
+  document.getElementById('addParticipanteBtn').onclick = () => {
+    const input = document.getElementById('newParticipante'); const val = input.value.trim(); if(!val) return;
+    const container = document.getElementById('participantes');
+    let chip = [...container.querySelectorAll('.chip')].find(x => x.dataset.nombre === val);
+    if(!chip){
+      chip = document.createElement('div'); chip.className = 'chip'; chip.dataset.nombre = val; chip.textContent = val;
+      chip.onclick = () => chip.classList.toggle('selected');
+      container.appendChild(chip);
+    }
+    chip.classList.add('selected'); input.value = '';
+  };
+}
+
+function cancelStart(){ 
+  editingPenaId=null; penaComments = []; app.innerHTML=''; 
+  document.getElementById('navTabs').classList.remove('hidden');
+  document.getElementById('heroSection').classList.remove('hidden');
+  load(); 
+}
+
+async function save(){
+  const sede = document.querySelector('#sedes .chip.selected')?.dataset.sede;
+  const participantesNombres = [...document.querySelectorAll('#participantes .chip.selected')].map(p => p.dataset.nombre);
+  const fecha = document.getElementById('penaFecha')?.value;
+  
+  if(!sede || !participantesNombres.length || !fecha) return alert('Faltan datos obligatorios');
+
+  const saveBtn = document.getElementById('saveBtn');
+  const spinner = saveBtn?.querySelector('.spinner');
+  const textSpan = saveBtn?.querySelector('.btn-text');
+  
+  if(saveBtn){ 
+    saveBtn.disabled = true; 
+    if(spinner) spinner.style.display='inline-block'; 
+    if(textSpan) textSpan.textContent = 'Guardando...'; 
+  }
+
+  try {
+    let pena;
+    const penaData = { sede, fecha, deleted_at: null };
+    
+    if(editingPenaId){
+      const r = await supaFetch(`penas?id=eq.${editingPenaId}`, {method:'PATCH',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(penaData)});
+      if(!r.ok) throw new Error('Error actualizando peña');
+      pena = (await r.json())[0];
+      await Promise.all([
+        supaFetch(`pena_participantes?pena_id=eq.${editingPenaId}`, { method: 'DELETE' }),
+        supaFetch(`pena_comentarios?pena_id=eq.${editingPenaId}`, { method: 'DELETE' })
+      ]);
+    } else {
+      const r = await supaFetch('penas', {method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(penaData)});
+      if(!r.ok) throw new Error('Error creando peña');
+      pena = (await r.json())[0];
+    }
+
+    const nombresStr = participantesNombres.map(n => `"${n}"`).join(','); 
+    const rPart = await supaFetch(`participantes?nombre=in.(${nombresStr})`);
+    const existentes = await rPart.json();
+    const existentesNombres = new Set(existentes.map(e => e.nombre));
+    const nuevosNombres = participantesNombres.filter(n => !existentesNombres.has(n));
+
+    let nuevosIDs = [];
+    if(nuevosNombres.length > 0) {
+      const rNew = await supaFetch('participantes', {method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(nuevosNombres.map(n => ({ nombre: n }))) });
+      const creados = await rNew.json();
+      nuevosIDs = creados.map(c => c.id);
+    }
+
+    const todosIDs = [...existentes.map(e => e.id), ...nuevosIDs];
+    if(todosIDs.length > 0){
+      const vinculos = todosIDs.map(pid => ({ pena_id: pena.id, participante_id: pid }));
+      await supaFetch('pena_participantes', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(vinculos)});
+    }
+
+    if(selectedPhotoFiles.length > 0) {
+      const uploadPromises = selectedPhotoFiles.map(async (f) => {
+        const name = `pena-${Date.now()}-${Math.random().toString(36).slice(2)}.${f.name.split('.').pop()}`;
+        await supaFetch(`storage/v1/object/penas-fotos/${name}`, {method:'PUT',headers:{'Content-Type':f.type},body:f}, true);
+        return `${SUPABASE_URL}/storage/v1/object/public/penas-fotos/${name}`;
+      });
+      const urls = await Promise.all(uploadPromises);
+      const fotosData = urls.map(url => ({ pena_id: pena.id, foto_url: url }));
+      await supaFetch('pena_fotos', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(fotosData)});
+    }
+
+    if(penaComments.length > 0) {
+      const comentariosData = penaComments.map(c => ({ pena_id: pena.id, comentario: c }));
+      await supaFetch('pena_comentarios', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(comentariosData)});
+      try { await supaFetch(`penas?id=eq.${pena.id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ comentarios: penaComments }) }); } catch(e){}
+    }
+
+    selectedPhotoFiles = []; penaComments = []; editingPenaId = null; app.innerHTML = '';
+    document.getElementById('navTabs').classList.remove('hidden');
+    document.getElementById('heroSection').classList.remove('hidden');
+    await load(); 
+
+  } catch(err) {
+    console.error(err); alert('Error al guardar: ' + err.message);
+  } finally {
+    if(saveBtn){ if(spinner) spinner.style.display='none'; if(textSpan) textSpan.textContent = 'Guardar'; saveBtn.disabled = false; }
+  }
+}
+
+async function load(){
+  document.getElementById('btnLoad')?.classList.add('selected');
+  document.getElementById('btnStats')?.classList.remove('selected');
+  document.getElementById('btnRules')?.classList.remove('selected');
+  document.getElementById('btnTruco')?.classList.remove('selected');
+  document.getElementById('heroSection').classList.remove('hidden'); 
+  
+  const data=await (await supaFetch('penas?select=id,fecha,sede,pena_fotos(foto_url),pena_participantes!inner(participantes(nombre)),pena_comentarios(comentario)&pena_participantes.deleted_at=is.null&deleted_at=is.null&order=fecha.desc')).json();
+  
+  if(!data.length){ 
+    app.innerHTML=`<div style="text-align:center;margin-top:60px;color:var(--text-muted);opacity:0.6">
+      <div style="font-size:40px;margin-bottom:10px">📭</div>
+      No hay peñas registradas aún
+    </div>`; 
+    return; 
+  }
+
+  app.innerHTML = data.map(p=>{
+    const fotos=p.pena_fotos||[]; const preview=fotos[0]?.foto_url;
+    const parts=(p.pena_participantes||[]).map(x=>x.participantes.nombre).join(', ');
+    const comments=(p.pena_comentarios||[]);
+    const fechaFormatted = formatDateSafe(p.fecha.slice(0,10));
+    
+    const imagesHtml = fotos.length ? 
+      `<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-top:10px">
+         ${fotos.map(f=>`<img src="${f.foto_url}" style="height:100px;border-radius:8px" onclick="event.stopPropagation();openModal('${f.foto_url}')">`).join('')}
+       </div>` : '';
+
+    const commentsHtml = comments.length ? 
+      `<div class="detail-section"><span class="detail-label">Notas</span>${comments.map(c=>`<div>• ${c.comentario}</div>`).join('')}</div>` : '';
+
+    const thumb = preview 
+      ? `<img class="thumb" src="${preview}" />` 
+      : `<div class="thumb">🍺</div>`;
+
+    return `
+    <div class="item" onclick="toggleDetail(this)">
+      <div class="pena-header">
+        ${thumb}
+        <div class="pena-info">
+          <strong>📌 ${p.sede}</strong>
+          <div class="pena-date">
+             <span>📅</span> ${fechaFormatted}
+          </div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <div class="action-icon" onclick="event.stopPropagation();editPena(${p.id})">✏️</div>
+          <div class="action-icon" style="color:#ff6b6b" onclick="event.stopPropagation();toggleDeleteConfirm(event,${p.id})">🗑️</div>
+        </div>
+      </div>
+      
+      <div class="pena-detail" style="display:none">
+        <div class="detail-section">
+          <span class="detail-label">Asistentes (${(p.pena_participantes||[]).length})</span>
+          <div style="color:var(--text-muted)">${parts}</div>
+        </div>
+        ${commentsHtml}
+        ${imagesHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDetail(card){ 
+  const d=card.querySelector('.pena-detail'); if(!d) return; 
+  const isOpen = d.style.display === 'block';
+  document.querySelectorAll('.pena-detail').forEach(x=>x.style.display='none');
+  d.style.display = isOpen ? 'none' : 'block';
+}
+
+function toggleDeleteConfirm(evt,id){
+  evt.stopPropagation();
+  const card = evt.target.closest('.item');
+  const existing = card.querySelector('.del-confirm');
+  if(existing){ existing.remove(); return; }
+  
+  const div = document.createElement('div');
+  div.className = 'del-confirm';
+  div.style.marginTop = '12px'; div.style.textAlign = 'right';
+  div.innerHTML = `<button style="background:rgba(255, 77, 77, 0.15);color:#ff4d4d;border:1px solid #ff4d4d;padding:8px 16px;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer">Confirmar Eliminar</button>`;
+  div.firstChild.onclick = async (e)=>{
+    e.stopPropagation();
+    await supaFetch(`penas?id=eq.${id}`,{ method:'DELETE' });
+    load();
+  };
+  card.appendChild(div);
+}
+
+async function editPena(id){
+  const r=await supaFetch(`penas?id=eq.${id}&select=id,sede,fecha,pena_participantes(participantes(nombre)),pena_comentarios(comentario)&pena_participantes.deleted_at=is.null`);
+  const rows=await r.json(); if(!rows.length) return;
+  const p=rows[0]; editingPenaId=id;
+  const participantes=(p.pena_participantes||[]).map(x=>x.participantes.nombre);
+  const comentarios = (p.pena_comentarios||[]).map(x=>x.comentario);
+  start({sede:p.sede,participantes,fecha:p.fecha.slice(0,10),comentarios});
+}
+
+async function stats(){
+  document.getElementById('btnStats')?.classList.add('selected');
+  document.getElementById('btnLoad')?.classList.remove('selected');
+  document.getElementById('btnRules')?.classList.remove('selected');
+  document.getElementById('btnTruco')?.classList.remove('selected');
+  document.getElementById('heroSection').classList.remove('hidden'); 
+  
+  try{
+    const rows = await (await supaFetch('vw_asistencias?select=nombre,_count&order=_count.desc')).json();
+    if(!rows || !rows.length){ app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted)">Sin datos</div>'; return; }
+
+    const max = Math.max(...rows.map(r=>r._count || 0));
+
+    app.innerHTML = `<h3 style="margin:10px 0 20px;color:var(--gold);text-align:center;text-transform:uppercase;letter-spacing:2px;font-size:14px;animation:fadeIn 0.5s">Ranking de Asistencia</h3>` + rows.map((r,i)=>{
+      const v = r._count || 0;
+      const w = max ? Math.round((v/max)*100) : 0;
+      const medal = i===0 ? '🥇' : (i===1 ? '🥈' : (i===2 ? '🥉' : ''));
+      return `
+        <div class="stat-row">
+           <div style="width:30px;font-weight:bold;color:var(--text-muted);font-size:12px">#${i+1}</div>
+           <div style="width:100px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px">${r.nombre} ${medal}</div>
+           <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${w}%"></div></div>
+           <div style="width:24px;text-align:right;font-weight:bold;color:var(--gold)">${v}</div>
+        </div>
+      `;
+    }).join('');
+
+  }catch(e){ console.warn(e); }
+}
+
+function rules(){
+  document.getElementById('btnRules').classList.add('selected');
+  document.getElementById('btnLoad').classList.remove('selected');
+  document.getElementById('btnStats').classList.remove('selected');
+  document.getElementById('btnTruco').classList.remove('selected');
+  document.getElementById('heroSection').classList.remove('hidden');
+  
+  const ruleContent = [
+    { t: 'Artículo 1° – Objeto', c: 'El presente reglamento tiene por objeto establecer las normas de organización, participación y funcionamiento de las peñas, así como los criterios de asistencia, registro y eventuales sanciones o reconocimientos.' },
+    { t: 'Artículo 2° – Asistencia y obligación', c: 'Al día 30 de junio inclusive se cerrará el período Clausura, revisándose la asistencia acumulada y determinándose los dos (2) participantes con menor nivel de asistencia, quienes deberán asumir, de manera conjunta, el costo total de un asado destinado a la totalidad de los integrantes. Finalizada dicha instancia, el cómputo de asistencias se reiniciará desde cero, dando inicio al período Apertura, que se extenderá hasta el 31 de diciembre del corriente año, aplicándose al cierre de dicho período el mismo criterio y obligaciones.'},
+    { t: 'Artículo 3° – Frecuencia', c: 'Las peñas se llevarán a cabo los días viernes o sábado, siempre y cuando se cuente con un mínimo de tres (3) participantes confirmados. En ausencia de dicho mínimo, la realización de la peña quedará automáticamente suspendida.' },
+    { t: 'Artículo 4° – Registro', c: 'El registro oficial de asistencias y actividades se realizará exclusivamente mediante la aplicación <br><a href="https://shorturl.at/reQy5" target="_blank" class="rule-link">Peñas Rosarinas</a><br><br>Dicha herramienta deberá ser utilizada de manera responsable, veraz y diligente por todos los participantes, siendo la información allí consignada considerada válida a todos los efectos reglamentarios.' },
+    { t: 'Artículo 5° – Premios', c: 'La eventual asignación de un premio para aquellos participantes que obtengan la mayor cantidad de victorias en el juego de truco queda pendiente de definición, debiendo ser resuelta mediante acuerdo posterior conforme a los mecanismos previstos en el presente reglamento.' },
+    { t: 'Artículo 6° – Modificaciones', c: 'Cualquier modificación, total o parcial, del presente reglamento requerirá la aprobación expresa de al menos dos tercios (2/3) del total de los integrantes. La sola conformidad de los participantes presentes en una peña no será suficiente para validar cambios reglamentarios.' },
+    { t: 'Artículo 7° – Vigencia', c: 'El presente reglamento entra en vigencia a partir de su aprobación y será de aplicación obligatoria para todos los participantes, sin excepción.' }
+  ];
+
+  app.innerHTML = `<h3 style="margin:10px 0 20px;color:var(--gold);text-align:center;text-transform:uppercase;letter-spacing:2px;font-size:14px;animation:fadeIn 0.5s">Reglamento General</h3>` + 
+    ruleContent.map((r, i) => `
+      <div class="item" style="animation-delay:${i * 0.05}s">
+        <div class="rule-title">${r.t}</div>
+        <div class="rule-content">${r.c}</div>
+      </div>
+    `).join('');
+}
+
+/* =========================================
+   TRUCO (NUEVO MODULO)
+   ========================================= */
+
+async function trucoInit() {
+  document.getElementById('btnTruco').classList.add('selected');
+  document.getElementById('btnLoad').classList.remove('selected');
+  document.getElementById('btnStats').classList.remove('selected');
+  document.getElementById('btnRules').classList.remove('selected');
+  
+  // Ocultamos el Hero Button para dar espacio
+  document.getElementById('heroSection').classList.add('hidden');
+
+  app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div></div>';
+
+  try {
+    const [penas, parts] = await Promise.all([
+      supaFetch('penas?select=id,fecha,sede&order=fecha.desc&limit=5').then(r=>r.json()),
+      supaFetch('participantes?select=id,nombre&order=nombre.asc').then(r=>r.json())
+    ]);
+
+    renderTrucoSetup(penas, parts);
+  } catch(e) { console.error(e); alert('Error cargando datos'); }
+}
+
+function renderTrucoSetup(penas, participantes) {
+  trucoState = { penaId: penas[0]?.id, nosotros: [], ellos: [], puntosNos: 0, puntosEllos: 0 };
+
+  app.innerHTML = `
+    <div class="truco-container">
+      <h2 style="color:var(--gold);text-align:center;text-transform:uppercase;font-size:16px;letter-spacing:2px;margin-bottom:20px">Nuevo Partido</h2>
+      
+      <div class="form-group">
+        <label class="form-label">SELECCIONAR PEÑA</label>
+        <select id="trucoPenaSelect" onchange="trucoState.penaId=this.value">
+          ${penas.map(p => `<option value="${p.id}">${formatDateSafe(p.fecha)} - ${p.sede}</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">NOSOTROS (Máx 3)</label>
+        <div class="chips-container" id="chipsNos">
+          ${participantes.map(p => `<div class="chip" onclick="toggleTrucoPlayer(this, 'nosotros', '${p.id}', '${p.nombre}')">${p.nombre}</div>`).join('')}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ELLOS (Máx 3)</label>
+        <div class="chips-container" id="chipsEllos">
+          ${participantes.map(p => `<div class="chip" onclick="toggleTrucoPlayer(this, 'ellos', '${p.id}', '${p.nombre}')">${p.nombre}</div>`).join('')}
+        </div>
+      </div>
+
+      <button onclick="startTrucoMatch()" class="btn-main btn-save" style="margin-top:20px">
+        JUGAR ♣️
+      </button>
+    </div>
+  `;
+}
+
+function toggleTrucoPlayer(el, equipo, id, nombre) {
+  const isSelected = el.classList.contains('selected');
+  const arr = trucoState[equipo];
+
+  // Si ya está seleccionado, lo sacamos
+  if(isSelected) {
+    const idx = arr.findIndex(x => x.id === id);
+    if(idx > -1) arr.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    // Validar max 3
+    if(arr.length >= 3) return alert('Máximo 3 jugadores por equipo');
+    // Validar que no esté en el otro equipo
+    const otro = equipo === 'nosotros' ? 'ellos' : 'nosotros';
+    if(trucoState[otro].find(x => x.id === id)) return alert('Ya está en el otro equipo');
+    
+    arr.push({ id, nombre });
+    el.classList.add('selected');
+  }
+}
+
+function startTrucoMatch() {
+  if(!trucoState.penaId) return alert('Selecciona una peña');
+  if(trucoState.nosotros.length === 0 || trucoState.ellos.length === 0) return alert('Elige al menos un jugador por equipo');
+  
+  renderTrucoBoard();
+}
+
+function renderTrucoBoard() {
+  // Nombres concatenados para mostrar
+  const nNos = trucoState.nosotros.map(x=>x.nombre).join(', ');
+  const nEllos = trucoState.ellos.map(x=>x.nombre).join(', ');
+
+  app.innerHTML = `
+    <div class="truco-container">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <button class="btn-back-circle" onclick="trucoInit()">←</button>
+        <div style="font-size:12px;color:var(--text-muted);font-weight:700">A 30 PUNTOS</div>
+        <div style="width:36px"></div>
+      </div>
+
+      <div class="truco-board">
+        <!-- COLUMNA NOSOTROS -->
+        <div class="truco-col">
+          <div class="truco-header">NOSOTROS</div>
+          <div style="font-size:11px;color:var(--celeste);margin-bottom:8px;text-align:center;min-height:30px">${nNos}</div>
+          
+          <div class="fosforos-area" id="areaNos"></div>
+          
+          <div class="truco-controls">
+            <button class="btn-score btn-minus" onclick="updateScore('nos', -1)">-</button>
+            <button class="btn-score btn-plus" onclick="updateScore('nos', 1)">+</button>
+          </div>
+        </div>
+
+        <!-- COLUMNA ELLOS -->
+        <div class="truco-col">
+          <div class="truco-header">ELLOS</div>
+          <div style="font-size:11px;color:var(--celeste);margin-bottom:8px;text-align:center;min-height:30px">${nEllos}</div>
+          
+          <div class="fosforos-area" id="areaEllos"></div>
+          
+          <div class="truco-controls">
+            <button class="btn-score btn-minus" onclick="updateScore('ellos', -1)">-</button>
+            <button class="btn-score btn-plus" onclick="updateScore('ellos', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  drawPhosphoros();
+}
+
+function updateScore(team, delta) {
+  if(team === 'nos') {
+    const nuevo = trucoState.puntosNos + delta;
+    if(nuevo < 0 || nuevo > 30) return;
+    trucoState.puntosNos = nuevo;
+  } else {
+    const nuevo = trucoState.puntosEllos + delta;
+    if(nuevo < 0 || nuevo > 30) return;
+    trucoState.puntosEllos = nuevo;
+  }
+  drawPhosphoros();
+  checkWin();
+}
+
+function checkWin() {
+  if(trucoState.puntosNos === 30 || trucoState.puntosEllos === 30) {
+    const ganador = trucoState.puntosNos === 30 ? 'NOSOTROS' : 'ELLOS';
+    // Small delay to render last point
+    setTimeout(() => {
+        app.innerHTML = `
+        <div style="text-align:center;padding:40px;animation:fadeIn 0.5s">
+            <div style="font-size:60px;margin-bottom:20px">🏆</div>
+            <h2 style="color:var(--gold);text-transform:uppercase;margin-bottom:10px">GANARON ${ganador}</h2>
+            <p style="color:var(--text-muted);margin-bottom:40px">
+                Nosotros: ${trucoState.puntosNos} - Ellos: ${trucoState.puntosEllos}
+            </p>
+            <button onclick="saveTrucoResult('${ganador}')" class="btn-main btn-save">Guardar Partido</button>
+            <button onclick="trucoInit()" class="btn-main btn-cancel" style="margin-top:10px">Descartar</button>
+        </div>
+        `;
+    }, 200);
+  }
+}
+
+async function saveTrucoResult(ganador) {
+    app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div><div style="margin-top:20px">Guardando...</div></div>';
+    
+    try {
+        // 1. Insertar partido
+        const partidoBody = {
+            pena_id: trucoState.penaId,
+            puntos_nosotros: trucoState.puntosNos,
+            puntos_ellos: trucoState.puntosEllos,
+            ganador: ganador
+        };
+        
+        const rPart = await supaFetch('truco_partidos', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Prefer': 'return=representation'},
+            body: JSON.stringify(partidoBody)
+        });
+        
+        if(!rPart.ok) throw new Error('Error guardando partido');
+        const partido = (await rPart.json())[0];
+        
+        // 2. Insertar jugadores
+        const jugadoresData = [
+            ...trucoState.nosotros.map(p => ({ partido_id: partido.id, participante_id: p.id, equipo: 'NOSOTROS' })),
+            ...trucoState.ellos.map(p => ({ partido_id: partido.id, participante_id: p.id, equipo: 'ELLOS' }))
+        ];
+        
+        await supaFetch('truco_jugadores', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(jugadoresData)
+        });
+        
+        alert('Partido guardado con éxito');
+        trucoInit(); // Volver al inicio de Truco
+        
+    } catch(e) {
+        console.error(e);
+        alert('Error al guardar: ' + e.message);
+        trucoInit();
+    }
+}
+
+// Lógica de dibujado SVG (Estilo Casita Argentina)
+function drawPhosphoros() {
+  const render = (count, containerId) => {
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    container.innerHTML = '';
+    
+    // Cuantos grupos de 5 completos
+    const fullGroups = Math.floor(count / 5);
+    const remainder = count % 5;
+    
+    // Color del trazo
+    const stroke = '#F4B942'; // Gold
+
+    // Función que devuelve el SVG de un grupo
+    const getGroupSVG = (n) => {
+        // n es de 1 a 5
+        let paths = '';
+        // 1: | (lado izq)
+        if(n >= 1) paths += `<line x1="10" y1="10" x2="10" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
+        // 2: | (arriba)
+        if(n >= 2) paths += `<line x1="10" y1="10" x2="30" y2="10" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
+        // 3: | (lado der)
+        if(n >= 3) paths += `<line x1="30" y1="10" x2="30" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
+        // 4: | (abajo - cierra cuadrado)
+        if(n >= 4) paths += `<line x1="10" y1="30" x2="30" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
+        // 5: / (diagonal)
+        if(n >= 5) paths += `<line x1="10" y1="10" x2="30" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
+
+        return `<svg class="fosforo-group" viewBox="0 0 40 40">${paths}</svg>`;
+    };
+
+    // Dibujar grupos llenos
+    for(let i=0; i<fullGroups; i++) {
+        container.innerHTML += getGroupSVG(5);
+    }
+    // Dibujar resto
+    if(remainder > 0) {
+        container.innerHTML += getGroupSVG(remainder);
+    }
+  };
+
+  render(trucoState.puntosNos, 'areaNos');
+  render(trucoState.puntosEllos, 'areaEllos');
+}
+
+window.onload=()=>{ 
+  if(localStorage.getItem('pena_auth')==='ok' && localStorage.getItem('pena_token')){ 
+    document.getElementById('login').style.display='none'; 
+    document.getElementById('mainContainer').style.display='block'; 
+    load(); 
+  } else {
+    localStorage.removeItem('pena_auth');
+    localStorage.removeItem('pena_token');
+  }
+};
+</script>
+</body>
+</html>
