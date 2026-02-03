@@ -7,10 +7,13 @@
   <meta name="theme-color" content="#050f16">
   <title>Peñas Rosarinas</title>
   
-  <!-- Fuente Clean, Moderna y con peso -->
+  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Librería para generar imagen del ticket -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     :root {
@@ -50,353 +53,577 @@
     .app-container {
       width: 100%;
       max-width: 500px;
-      padding: 0 16px 40px 16px;
+      padding: 0 16px 120px 16px;
       position: relative;
     }
 
-    /* --- HEADER ARGENTINO --- */
+    /* --- HEADER --- */
     header {
       position: sticky; top: 0; z-index: 100;
       background: rgba(5, 15, 22, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      
-      margin: 0 -16px 0 -16px;
-      padding: 10px 24px;
-      
+      margin: 0 -16px 0 -16px; padding: 10px 24px;
       display: flex; justify-content: space-between; align-items: center;
       height: var(--header-height);
-      
       border-bottom: 1px solid rgba(117, 170, 219, 0.15);
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-
     .brand-container { display: flex; flex-direction: column; }
-    
     h1 {
       font-size: 22px; font-weight: 900; margin: 0;
       background: linear-gradient(to right, var(--celeste), #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-      text-transform: uppercase;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px; text-transform: uppercase;
       filter: drop-shadow(0 0 10px rgba(117,170,219,0.3));
     }
     .subtitle {
-      font-size: 10px; color: var(--gold); 
-      text-transform: uppercase; letter-spacing: 1.5px; 
-      font-weight: 700; margin-top: 4px;
-      text-shadow: 0 0 10px rgba(244, 185, 66, 0.4);
+      font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; 
+      font-weight: 700; margin-top: 4px; text-shadow: 0 0 10px rgba(244, 185, 66, 0.4);
     }
-
-    /* Ícono Malvinas (Link a YouTube) */
     .header-icon-box {
       width: 50px; height: 50px;
       background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(117, 170, 219, 0.3);
-      box-shadow: 0 0 20px rgba(117, 170, 219, 0.15);
-      overflow: hidden;
-      padding: 6px;
-      cursor: pointer;
-      text-decoration: none;
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(117, 170, 219, 0.3); box-shadow: 0 0 20px rgba(117, 170, 219, 0.15);
+      overflow: hidden; padding: 6px; cursor: pointer; text-decoration: none;
     }
-    
-    .header-icon-img {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      opacity: 0.9;
-    }
+    .header-icon-img { width: 100%; height: 100%; object-fit: contain; opacity: 0.9; }
 
-    /* --- BIG BUTTON (Animation & Interaction) --- */
+    /* --- BIG BUTTON --- */
     .hero-btn-container {
-      display: flex; justify-content: center; 
-      margin: 30px 0 30px 0;
+      display: flex; justify-content: center; margin: 30px 0 30px 0;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       max-height: 200px; opacity: 1; transform: scale(1);
     }
-    .hero-btn-container.hidden {
-      max-height: 0; opacity: 0; transform: scale(0.8); margin: 0; overflow: hidden; pointer-events: none;
-    }
-    
+    .hero-btn-container.hidden { max-height: 0; opacity: 0; transform: scale(0.8); margin: 0; overflow: hidden; pointer-events: none; }
     .big-btn {
-      width: 155px; height: 155px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #1c2b38, #0a141c);
-      color: var(--text);
-      
+      width: 155px; height: 155px; border-radius: 50%;
+      background: linear-gradient(145deg, #1c2b38, #0a141c); color: var(--text);
       border: 3px solid transparent;
-      background-image: linear-gradient(#0e1a24, #0e1a24), 
-                        linear-gradient(to bottom, var(--celeste), #fff, var(--celeste));
-      background-origin: border-box;
-      background-clip: padding-box, border-box;
-
-      box-shadow: 
-        0 10px 0 #04080b, 
-        0 20px 40px rgba(0,0,0,0.6), 
-        inset 0 0 20px rgba(117, 170, 219, 0.1);
-      
+      background-image: linear-gradient(#0e1a24, #0e1a24), linear-gradient(to bottom, var(--celeste), #fff, var(--celeste));
+      background-origin: border-box; background-clip: padding-box, border-box;
+      box-shadow: 0 10px 0 #04080b, 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(117, 170, 219, 0.1);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      cursor: pointer;
-      position: relative;
-      user-select: none;
-      
+      cursor: pointer; position: relative; user-select: none;
       animation: pulse-glow 3s infinite ease-in-out;
     }
-
     @keyframes pulse-glow {
       0% { transform: scale(1); box-shadow: 0 10px 0 #04080b, 0 20px 40px rgba(0,0,0,0.6); }
       50% { transform: scale(1.04); box-shadow: 0 10px 0 #04080b, 0 25px 50px rgba(117, 170, 219, 0.35); }
       100% { transform: scale(1); box-shadow: 0 10px 0 #04080b, 0 20px 40px rgba(0,0,0,0.6); }
     }
-
-    .big-btn:active { 
-      animation: none;
-      transform: translateY(10px) scale(0.98); 
-      box-shadow: 
-        0 0 0 #04080b, 
-        inset 0 4px 20px rgba(0,0,0,0.9), 
-        0 0 20px var(--gold);
-      border-color: var(--gold);
-    }
-
+    .big-btn:active { animation: none; transform: translateY(10px) scale(0.98); box-shadow: 0 0 0 #04080b, inset 0 4px 20px rgba(0,0,0,0.9), 0 0 20px var(--gold); border-color: var(--gold); }
     .big-btn span { display: block; pointer-events: none; }
     .big-icon { font-size: 52px; margin-bottom: 6px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
-    .big-label { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+    .big-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-top: 5px; }
 
     /* --- TABS --- */
+    /* --- NAVIGATION BAR (MODERN BOTTOM NAV) --- */
     .segmented-control {
-      position: sticky; top: calc(var(--header-height) + 12px); z-index: 90;
-      display: flex; background: rgba(14, 26, 36, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 5px; border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.08);
-      margin-bottom: 24px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-      overflow-x: auto; /* Para evitar desbordes en móviles pequeños */
+      position: fixed; 
+      bottom: 24px; 
+      left: 50%; 
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 468px;
+      z-index: 1000;
+      display: flex; 
+      background: rgba(14, 26, 36, 0.9); 
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 8px 6px; 
+      border-radius: 30px; 
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .segmented-control.hidden { display: none; }
-
+    .segmented-control.hidden { 
+      transform: translate(-50%, 150%); 
+      opacity: 0; 
+      pointer-events: none; 
+    }
     .segment-btn {
-      flex: 1; padding: 12px; text-align: center;
-      font-size: 12px; font-weight: 700; color: var(--text-muted);
-      border-radius: 12px; background: transparent; transition: all 0.2s ease; border: none; cursor: pointer;
+      flex: 1; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0; 
+      font-size: 10px; 
+      font-weight: 700; 
+      color: var(--text-muted);
+      border-radius: 20px; 
+      background: transparent; 
+      transition: all 0.3s ease; 
+      border: none; 
+      cursor: pointer; 
       white-space: nowrap;
+      position: relative;
     }
-    .segment-btn.selected {
-      background: var(--surface-light);
-      color: var(--celeste);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      border: 1px solid rgba(117, 170, 219, 0.2);
+    .segment-btn .nav-icon {
+      font-size: 22px;
+      margin-bottom: 2px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
     }
+    .segment-btn.selected { 
+      color: var(--celeste); 
+    }
+    .segment-btn.selected .nav-icon {
+      transform: translateY(-5px) scale(1.1);
+      filter: drop-shadow(0 0 10px rgba(117, 170, 219, 0.4));
+    }
+    .segment-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      width: 4px;
+      height: 4px;
+      background: var(--celeste);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.3s ease;
+      transform: scale(0);
+    }
+    .segment-btn.selected::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .segment-btn:active { transform: scale(0.9); }
 
-    /* --- CARDS & RULES --- */
+    /* --- CARDS & COMMON --- */
     .item {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 18px; margin-bottom: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.03);
-      position: relative; overflow: hidden;
-      transition: transform 0.2s, background 0.2s;
+      background: var(--surface); 
+      border-radius: 16px; 
+      padding: 8px 14px; 
+      margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative; 
+      overflow: hidden; 
+      transition: all 0.2s ease;
+      will-change: transform;
     }
     .item:active { background: var(--surface-light); transform: scale(0.98); }
-    
-    .item::before {
-      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+    .item::before { 
+      content: ''; 
+      position: absolute; 
+      left: 0; top: 0; bottom: 0; 
+      width: 5px; 
       background: linear-gradient(to bottom, var(--celeste) 30%, #fff 50%, var(--celeste) 70%); 
     }
-
-    .pena-header { display: flex; align-items: center; gap: 16px; }
+    
+    .pena-header { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
+    
     .thumb { 
-      width: 56px; height: 56px; border-radius: 16px; object-fit: cover; 
-      background: #05080a; color: var(--gold);
-      display: flex; align-items: center; justify-content: center; font-size: 26px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+      width: 52px; 
+      height: 52px; 
+      border-radius: 50%; 
+      object-fit: cover; 
+      background: #000; 
+      color: var(--gold);
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 18px;
+      border: 2px solid #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
     }
-    .pena-info { flex: 1; }
-    .pena-info strong { display: block; font-size: 17px; margin-bottom: 5px; color: #fff; letter-spacing: 0.3px; }
-    .pena-date { font-size: 13px; color: var(--text-muted); font-weight: 500; display:flex; align-items:center; gap:4px;}
+    .thumb img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      border-radius: 50%;
+      display: block;
+    }
     
-    .action-icon {
-      color: var(--text-muted); padding: 10px; border-radius: 50%; 
-      background: rgba(255,255,255,0.03); font-size: 18px; cursor: pointer;
+    .pena-info { flex: 1; min-width: 0; }
+    .pena-info strong { 
+      display: block; 
+      font-size: 15px; 
+      margin-bottom: 1px; 
+      color: #fff; 
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pena-date { 
+      font-size: 11px; 
+      color: var(--text-muted); 
+      font-weight: 500; 
+      display:flex; 
+      align-items:center; 
+      gap:4px;
+      opacity: 0.7;
     }
     
-    .pena-detail {
-      margin-top: 18px; padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      animation: fadeIn 0.4s ease;
+    .action-icon { 
+      color: var(--text-muted); 
+      padding: 6px; 
+      border-radius: 10px; 
+      background: rgba(255,255,255,0.03); 
+      font-size: 14px; 
+      cursor: pointer; 
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.05);
     }
+    .item:active { background: var(--surface-light); transform: scale(0.98); }
+    .item::before { 
+      content: ''; 
+      position: absolute; 
+      left: 0; top: 0; bottom: 0; 
+      width: 6px; 
+      background: linear-gradient(to bottom, var(--celeste) 30%, #fff 50%, var(--celeste) 70%); 
+    }
+    
+    .pena-header { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+    
+    .thumb { 
+      width: 60px; 
+      height: 60px; 
+      border-radius: 16px; 
+      object-fit: cover; 
+      background: #000; 
+      color: var(--gold);
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 20px;
+      border: 2px solid #000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+    .thumb img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      border-radius: 14px;
+      display: block;
+    }
+    .thumb img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      border-radius: 8px;
+      display: block;
+    }
+    /* Brillo sutil sobre la foto */
+    .thumb::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .pena-info { flex: 1; min-width: 0; }
+    .pena-info strong { 
+      display: block; 
+      font-size: 16px; 
+      margin-bottom: 2px; 
+      color: #fff; 
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pena-date { 
+      font-size: 12px; 
+      color: var(--text-muted); 
+      font-weight: 500; 
+      display:flex; 
+      align-items:center; 
+      gap:4px;
+      opacity: 0.8;
+    }
+    
+    .action-icon { 
+      color: var(--text-muted); 
+      padding: 8px; 
+      border-radius: 12px; 
+      background: rgba(255,255,255,0.03); 
+      font-size: 16px; 
+      cursor: pointer; 
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .pena-detail { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.05); animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
-    
     .detail-section { margin-top: 12px; font-size: 15px; color: #d0d0d0; line-height: 1.5; }
     .detail-label { color: var(--celeste); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
-
-    /* Rules specific styles */
-    .rule-title {
-        color: var(--gold);
-        font-size: 13px; font-weight: 800; letter-spacing: 1px;
-        text-transform: uppercase; margin-bottom: 10px;
-    }
-    .rule-content {
-        font-size: 15px; line-height: 1.6; color: #e0e0e0;
-    }
-    .rule-link {
-        color: var(--celeste); text-decoration: none; border-bottom: 1px solid rgba(117,170,219,0.5);
-    }
-
-    /* --- FORMULARIOS & BACK BUTTONS --- */
-    .form-header-row {
-        display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
-    }
+    
+    /* INPUTS & FORMS */
+    .form-header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
     .btn-back-circle {
-        background: rgba(117, 170, 219, 0.1);
-        border: 1px solid rgba(117, 170, 219, 0.2);
-        color: var(--celeste);
-        width: 36px; height: 36px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 18px; cursor: pointer; transition: all 0.2s;
+      background: rgba(117, 170, 219, 0.1); border: 1px solid rgba(117, 170, 219, 0.2); color: var(--celeste);
+      width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; cursor: pointer; transition: all 0.2s;
     }
     .btn-back-circle:active { background: var(--celeste); color: #000; }
-
     .form-group { margin-bottom: 26px; text-align: left; }
     .form-label { display: block; font-size: 11px; color: var(--gold); margin-bottom: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-    
     input, select {
-      width: 100%; padding: 18px; background: var(--surface-light); 
-      border: 2px solid transparent;
-      border-radius: 16px; color: #fff; font-size: 16px; font-family: inherit;
-      transition: all 0.2s;
+      width: 100%; padding: 18px; background: var(--surface-light); border: 2px solid transparent;
+      border-radius: 16px; color: #fff; font-size: 16px; font-family: inherit; transition: all 0.2s;
     }
-    select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2375AADB%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 20px center; background-size: 12px; }
     input:focus, select:focus { border-color: var(--celeste); background: #26384a; box-shadow: 0 0 15px var(--celeste-dim); }
-    
-    /* Chips */
+    select.pena-selector, input.pena-selector {
+      padding: 8px 12px; font-size: 13px;
+    }
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
     .chips-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
     .chip {
       padding: 10px 20px; background: rgba(255,255,255,0.05); border-radius: 50px;
       font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer;
-      border: 1px solid transparent; transition: all 0.2s;
-      user-select: none;
+      border: 1px solid transparent; transition: all 0.2s; user-select: none;
     }
-    .chip.selected { 
-      background: var(--celeste); color: #000; 
-      border-color: var(--celeste); font-weight: 700;
-      box-shadow: 0 0 15px var(--celeste-dim);
-    }
+    .chip.selected { background: var(--celeste); color: #000; border-color: var(--celeste); font-weight: 700; box-shadow: 0 0 15px var(--celeste-dim); }
+    .chip.split-chip { padding: 8px 14px; font-size: 13px; border:1px solid rgba(255,255,255,0.1); } 
+    
     .btn-small { width: 48px; background: var(--surface-light); color: var(--gold); font-size: 24px; border-radius: 14px; border:none; cursor: pointer; display:flex; align-items:center; justify-content:center; }
-    .btn-small:active { background: var(--gold); color: #000; }
-
-    /* Upload */
-    .upload-box {
-      border: 2px dashed rgba(117, 170, 219, 0.3); border-radius: 16px;
-      padding: 30px; text-align: center; color: var(--text-muted); cursor: pointer;
-      background: rgba(0,0,0,0.2); transition: all 0.2s;
-    }
-    .upload-box:active { background: rgba(117, 170, 219, 0.1); border-color: var(--celeste); }
-
-    /* Botones Acción */
+    .upload-box { border: 2px dashed rgba(117, 170, 219, 0.3); border-radius: 16px; padding: 30px; text-align: center; color: var(--text-muted); cursor: pointer; background: rgba(0,0,0,0.2); transition: all 0.2s; }
     .form-footer { display: flex; gap: 16px; margin-top: 40px; }
-    .btn-main {
-      flex: 1; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+    .btn-main { flex: 1; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.2s; }
     .btn-main:active { transform: scale(0.97); }
     .btn-cancel { background: transparent; color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
-    .btn-save { 
-      background: linear-gradient(135deg, var(--celeste), #3a82c4); 
-      color: #000; box-shadow: 0 8px 20px rgba(58, 130, 196, 0.3); 
+    .btn-save { background: linear-gradient(135deg, var(--celeste), #3a82c4); color: #000; box-shadow: 0 8px 20px rgba(58, 130, 196, 0.3); }
+    
+    /* EDITOR PHOTO PREVIEW */
+    .preview-wrapper { position: relative; width: 100%; aspect-ratio: 1; }
+    .btn-delete-photo {
+        position: absolute; top: 4px; right: 4px;
+        background: rgba(0,0,0,0.6); color: #ff6b6b;
+        width: 24px; height: 24px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; font-size: 14px; font-weight: bold;
+        border: 1px solid rgba(255,255,255,0.2);
     }
 
-    /* Stats */
-    .stat-row { 
-      display: flex; align-items: center; gap: 14px; margin-bottom: 18px; 
-      padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;
-      animation: fadeIn 0.5s ease;
-      border-left: 3px solid transparent;
-    }
-    .stat-row:nth-of-type(2), .stat-row:nth-of-type(3), .stat-row:nth-of-type(4) {
-       border-left-color: var(--gold);
-       background: linear-gradient(90deg, rgba(244, 185, 66, 0.05), transparent);
-    }
-
+    /* STATS */
+    .stats-header { margin: 30px 0 15px 0; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 14px; font-weight: 800; text-align: center; border-bottom: 1px solid rgba(244, 185, 66, 0.2); padding-bottom: 8px; }
+    .stat-row { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 12px; animation: fadeIn 0.5s ease; border-left: 3px solid transparent; }
+    .stat-row.top-rank { border-left-color: var(--gold); background: linear-gradient(90deg, rgba(244, 185, 66, 0.05), transparent); }
     .stat-bar-track { flex: 1; height: 10px; background: rgba(0,0,0,0.3); border-radius: 100px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
     .stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--celeste), #fff); border-radius: 100px; box-shadow: 0 0 10px var(--celeste-dim); transition: width 1s ease; }
 
+    /* TABLA TRUCO DETALLE COMPACTA */
+    .truco-mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .truco-mini-table th {
+      text-align: left;
+      padding: 6px 12px;
+      background: rgba(117, 170, 219, 0.12);
+      color: var(--celeste);
+      text-transform: uppercase;
+      font-size: 9px;
+      letter-spacing: 1px;
+      font-weight: 900;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .truco-mini-table td {
+      padding: 6px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .truco-mini-table tr:last-child td { border-bottom: none; }
+    .truco-mini-table .player-name { color: #fff; font-weight: 700; }
+    .truco-mini-table .stat-total { font-weight: 700; color: rgba(255,255,255,0.6); }
+    .truco-mini-table .stat-win { color: var(--gold); font-weight: 800; }
+    .truco-mini-table .stat-loss { color: #ff6b6b; font-weight: 600; opacity: 0.9; }
+
     /* TRUCO STYLES */
     .truco-container { animation: fadeIn 0.4s ease; }
-    .truco-board {
-      display: flex; gap: 10px; justify-content: center;
-      margin-top: 20px;
-    }
-    .truco-col {
-      flex: 1; 
-      background: rgba(255,255,255,0.05); 
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 10px;
-      display: flex; flex-direction: column; align-items: center;
-    }
-    .truco-header {
-      font-size: 16px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;
-      margin-bottom: 10px; text-align: center; height: 40px; display:flex; align-items:center;
-    }
-    .fosforos-area {
-      width: 100%; min-height: 250px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 12px;
-      margin-bottom: 15px;
-      display: grid;
-      grid-template-columns: 1fr 1fr; /* Dos columnas de fosforos por equipo */
-      gap: 5px;
-      padding: 10px;
-      align-content: start;
-    }
-    .fosforo-group {
-      width: 40px; height: 40px; margin: 0 auto;
-    }
-    .truco-controls {
-      display: flex; width: 100%; gap: 8px;
-    }
-    .btn-score {
-      flex: 1; height: 50px; border-radius: 12px; border: none; cursor: pointer;
-      font-size: 20px; font-weight: bold;
-    }
+    .truco-board { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+    .truco-col { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+    .truco-header { font-size: 16px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; text-align: center; height: 40px; display:flex; align-items:center; }
+    .fosforos-area { width: 100%; min-height: 350px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; padding: 15px 5px; gap: 5px; position: relative; }
+    .fosforo-group { width: 45px; height: 45px; flex-shrink: 0; }
+    .buenas-divider { width: 80%; height: 2px; background-color: rgba(255,255,255,0.3); margin: 5px 0; position: relative; }
+    .buenas-divider::after { content: 'BUENAS'; position: absolute; right: 0; top: -14px; font-size: 9px; color: rgba(255,255,255,0.4); font-weight: 700; }
+    .truco-controls { display: flex; width: 100%; gap: 8px; }
+    .btn-score { flex: 1; height: 50px; border-radius: 12px; border: none; cursor: pointer; font-size: 20px; font-weight: bold; }
     .btn-plus { background: var(--surface-light); color: var(--celeste); border: 1px solid rgba(117,170,219,0.2); }
-    .btn-plus:active { background: var(--celeste); color: #000; }
     .btn-minus { background: rgba(255,255,255,0.03); color: var(--text-muted); }
-    .btn-minus:active { background: rgba(255,255,255,0.1); }
 
-    /* Login */
-    #login {
-      position: fixed; inset: 0; background: #050f16; z-index: 9999;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 20px; 
-      background-image: radial-gradient(circle at 50% 30%, #153c5e 0%, #000 70%);
-    }
+    /* RULES */
+    .rule-title { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .rule-content { font-size: 15px; line-height: 1.6; color: #e0e0e0; }
+    .rule-link { color: var(--celeste); text-decoration: none; border-bottom: 1px solid rgba(117,170,219,0.5); }
+
+    /* LOGIN */
+    #login { position: fixed; inset: 0; background: #050f16; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; background-image: radial-gradient(circle at 50% 30%, #153c5e 0%, #000 70%); }
     .login-card { width: 100%; max-width: 320px; text-align: center; animation: fadeIn 0.8s ease; }
-    .login-input { 
-      text-align: center; letter-spacing: 8px; font-size: 32px; font-weight: 700; margin-bottom: 30px; 
-      background: rgba(0,0,0,0.4); border-color: var(--gold); color: var(--gold); 
-      height: 70px; border-radius: 20px;
-    }
-    
-    /* Utilities */
+    .login-input { text-align: center; letter-spacing: 8px; font-size: 32px; font-weight: 700; margin-bottom: 30px; background: rgba(0,0,0,0.4); border-color: var(--gold); color: var(--gold); height: 70px; border-radius: 20px; }
+
+    /* UTILS & GASTOS */
     .spinner { width: 22px; height: 22px; border: 3px solid rgba(0,0,0,0.1); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to {transform: rotate(360deg);} }
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-    .modal img { max-width: 100%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+    .gasto-item { display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.05); }
+
+    /* MODAL & LIGHTBOX */
+    .modal { 
+      position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; 
+      display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px);
+      will-change: opacity;
+    }
+    .modal.active { display: flex; }
+    .modal-content { 
+      position: relative; width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; touch-action: pan-y; 
+    }
+    .modal-main { 
+      flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; 
+      position: relative; overflow: hidden;
+    }
+    .modal-img { 
+      max-width: 100%; max-height: 100%; border-radius: 8px; 
+      box-shadow: 0 0 60px rgba(0,0,0,0.8); transition: transform 0.3s ease, opacity 0.3s ease;
+      object-fit: contain; cursor: zoom-in;
+      will-change: transform, opacity;
+    }
+    .modal-img.zoomed { transform: scale(2); cursor: zoom-out; }
+    .modal-nav { display: none; }
+    
+    .modal-thumbs-container {
+      width: 100%; padding: 12px 0; background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
+    .modal-thumb {
+      width: 50px; height: 50px; border-radius: 8px; object-fit: cover;
+      cursor: pointer; border: 2px solid transparent; opacity: 0.5;
+      transition: all 0.2s ease; 
+    }
+    .modal-thumb:hover { opacity: 0.8; transform: scale(1.05); }
+    .modal-thumb.active { border-color: var(--celeste); opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px var(--celeste-dim); }
+    
+    .modal-counter {
+      position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.6); color: white; padding: 6px 16px;
+      border-radius: 20px; font-size: 13px; font-weight: 600;
+      backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .modal-close { 
+      position: absolute; top: 20px; right: 20px; font-size: 28px; color: #fff; 
+      cursor: pointer; z-index: 10002; padding: 12px; opacity: 0.7;
+      background: rgba(0,0,0,0.3); border-radius: 50%; width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .modal-close:hover { opacity: 1; background: rgba(0,0,0,0.5); transform: scale(1.1); }
+    
+    .modal-back-btn { 
+      position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.3); 
+      border: 1px solid rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 25px; 
+      color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; z-index: 10002; 
+      display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); transition: all 0.2s;
+    }
+    .modal-back-btn:hover { background: rgba(255,255,255,0.15); }
+
+    /* TICKET GASTOS */
+    #ticketResult { background: linear-gradient(135deg, #1c2b38, #0e1a24); border-radius: 20px; padding: 25px; border: 1px solid var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
+    #ticketResult::before { content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--celeste); opacity: 0.1; border-radius: 50%; filter: blur(40px); }
+    .ticket-brand { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; opacity: 0.5; }
+
+    /* FIRMA DIGITAL */
+    .firma-section { margin-top: 30px; animation: fadeIn 0.5s ease; }
+    .firma-title { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; text-align: center; }
+    .firma-canvas-wrapper { position: relative; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    #firmaCanvas { display: block; width: 100%; height: 200px; cursor: crosshair; touch-action: none; }
+    .firma-controls { display: flex; gap: 10px; margin-top: 12px; }
+    .firma-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: 700; font-size: 14px; cursor: pointer; transition: transform 0.2s; }
+    .firma-btn:active { transform: scale(0.97); }
+    .firma-btn-clear { background: rgba(255,107,107,0.15); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.3); }
+    .firma-btn-save { background: linear-gradient(135deg, var(--celeste), #3a82c4); color: #000; box-shadow: 0 4px 15px rgba(58, 130, 196, 0.3); }
+    .firma-preview { margin-top: 16px; text-align: center; }
+    .firma-preview img { max-width: 100%; border-radius: 8px; border: 2px solid var(--celeste); box-shadow: 0 4px 15px rgba(117, 170, 219, 0.2); }
+    
+    /* GALERIA CARROUSEL (TIPO INSTAGRAM) */
+    .gallery-grid {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 10px 0 20px 0;
+      margin-top: 12px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .gallery-grid::-webkit-scrollbar { display: none; }
+    
+    .gallery-img {
+      width: 100%; /* Ocupa todo el ancho */
+      min-width: 100%; /* Asegura que solo se vea una */
+      height: auto;
+      aspect-ratio: 1 / 1; /* Cuadradas para que se luzcan uniformes */
+      object-fit: cover;
+      border-radius: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(117, 170, 219, 0.4);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease;
+      scroll-snap-align: center; /* Centrado magnético */
+      scroll-snap-stop: always; /* Evita que salte varias fotos de una */
+    }
+
+    /* PUNTOS INDICADORES CARROUSEL */
+    .gallery-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding-bottom: 10px;
+    }
+    .gallery-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    .gallery-dot.active {
+      background: var(--celeste);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px var(--celeste-dim);
+    }
 
   </style>
 </head>
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js');
-}
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
 </script>
 <body>
 
@@ -407,10 +634,8 @@ if ('serviceWorker' in navigator) {
     <h2 style="margin-bottom:8px;color:var(--text);font-size:28px">Peñas Rosarinas</h2>
     <p style="color:var(--gold);margin-bottom:48px;font-size:12px;letter-spacing:2px;font-weight:700">ACCESO RESTRINGIDO</p>
     <p style="color:var(--text-muted);margin-bottom:20px;font-size:12px;font-style:italic;opacity:0.5">Bienvenido</p>
-    
     <input id="pass" type="password" placeholder="••••" class="login-input" maxlength="20" />
     <button onclick="login()" class="btn-main btn-save" style="width:100%">Desbloquear</button>
-    
     <div id="err" style="color:#ff6b6b;margin-top:24px;display:none;font-weight:600;background:rgba(255,107,107,0.1);padding:10px;border-radius:10px">Código incorrecto</div>
     <div style="margin-top:30px;font-size:13px;color:var(--celeste);cursor:pointer;opacity:0.8;text-decoration:underline" onclick="togglePass()">Mostrar contraseña</div>
   </div>
@@ -418,92 +643,142 @@ if ('serviceWorker' in navigator) {
 
 <!-- APP -->
 <div class="app-container" id="mainContainer" style="display:none">
-  
-  <!-- HEADER CON LOGO MALVINAS -->
   <header id="mainHeader">
     <div class="brand-container">
       <h1>Peñas Rosarinas</h1>
       <div class="subtitle">AL GRAN PUEBLO ARGENTINO SALUD</div>
     </div>
     <a href="https://www.youtube.com/watch?v=08TNhQlTxhw&list=RD08TNhQlTxhw" target="_blank" class="header-icon-box">
-      <!-- IMAGEN MALVINAS -->
-      <img src="https://iconape.com/wp-content/png_logo_vector/malvinas-argentinas-logo.png" class="header-icon-img" alt="Malvinas Argentinas" />
+      <img src="https://iconape.com/wp-content/png_logo_vector/malvinas-argentinas-logo.png" class="header-icon-img" alt="Malvinas" />
     </a>
   </header>
 
-  <!-- BIG BUTTON -->
   <div id="heroSection" class="hero-btn-container">
-    <button class="big-btn" onclick="start()">
-      <span class="big-icon">🍻</span>
-      <span class="big-label">Iniciar<br>Peña</span>
+    <button class="big-btn" onclick="start()"><img src="BotonIniciarPenas.png" class="big-icon" style="width: 165px; height: auto; object-fit: contain; margin-bottom: -15px;"><span class="big-label">Iniciar<br>Peña</span></button>
+  </div>
+
+  <div class="segmented-control" id="navTabs">
+    <button id="btnLoad" class="segment-btn selected" onclick="navigateToTab('peñas')">
+      <span class="nav-icon">🏠</span>
+      <span>Peñas</span>
+    </button>
+    <button id="btnTruco" class="segment-btn" onclick="navigateToTab('truco')">
+      <span class="nav-icon"><img src="AnchoDeEspadas.png" style="width:30px;height:22px;object-fit:contain;" alt="Truco"></span>
+      <span>Truco</span>
+    </button>
+    <button id="btnGastos" class="segment-btn" onclick="navigateToTab('gastos')">
+      <span class="nav-icon">💸</span>
+      <span>Gastos</span>
+    </button>
+    <button id="btnStats" class="segment-btn" onclick="navigateToTab('stats')">
+      <span class="nav-icon">🏆</span>
+      <span>Tabla</span>
+    </button>
+    <button id="btnRules" class="segment-btn" onclick="navigateToTab('rules')">
+      <span class="nav-icon">📜</span>
+      <span>Legales</span>
     </button>
   </div>
 
-  <!-- TABS (Ahora con Truco) -->
-  <div class="segmented-control" id="navTabs">
-    <button id="btnLoad" class="segment-btn selected" onclick="load()">Historial</button>
-    <button id="btnTruco" class="segment-btn" onclick="trucoInit()">Truco</button>
-    <button id="btnStats" class="segment-btn" onclick="stats()">Estadísticas</button>
-    <button id="btnRules" class="segment-btn" onclick="rules()">Reglamento</button>
-  </div>
-
-  <!-- Contenedor -->
   <div id="app"></div>
-
 </div>
 
-<!-- Lightbox Modal -->
-<div id="modal" class="modal" onclick="closeModal()">
-  <img id="modalImg" src="" onclick="event.stopPropagation()" />
+<!-- LIGHTBOX MODAL PROFESIONAL -->
+<div id="modal" class="modal" style="display:none">
+  <div class="modal-content">
+    <div class="modal-back-btn" onclick="closeModal()">← Volver</div>
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    
+    <div class="modal-counter" id="modalCounter">1 / 1</div>
+    
+    <div class="modal-main">
+      <button class="modal-nav nav-prev" onclick="prevImage()">&#10094;</button>
+      <img id="modalImg" class="modal-img" src="" onclick="toggleZoom()" />
+      <button class="modal-nav nav-next" onclick="nextImage()">&#10095;</button>
+    </div>
+    
+    <div class="modal-thumbs-container" id="modalThumbs"></div>
+  </div>
 </div>
 
 <script>
-/* =========================================
-   CONFIGURACIÓN & API
-   ========================================= */
+/* ===================== CONFIG & API ===================== */
 const SUPABASE_URL = "https://zzwnvmgiyduwncjpakmf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ZOT1mcAKZ4W21uF1mpj6YA_rvPQNruU";
 const app = document.getElementById('app');
 let editingPenaId = null;
 let selectedPhotoFiles = [];
+let editorExistingPhotos = [];
 let penaComments = [];
-
-// Variables Truco
-let trucoState = {
-  penaId: null,
-  nosotros: [],
-  ellos: [],
-  puntosNos: 0,
-  puntosEllos: 0
-};
-
-// Variable para guardar el token en memoria o leerlo de localStorage
 let sessionToken = localStorage.getItem('pena_token');
+
+// Historial de navegación entre pestañas
+let tabHistory = [];
+const TAB_HOME = 'peñas';
+const TAB_TRUCO = 'truco';
+const TAB_GASTOS = 'gastos';
+const TAB_STATS = 'stats';
+const TAB_RULES = 'rules';
+
+// States
+let trucoState = { penaId: null, nosotros: [], ellos: [], puntosNos: 0, puntosEllos: 0 };
+let gastosState = { penaId: null, expenses: [], participants: [], allParts: [], currentSplitSelection: [] };
+let galleryState = { images: [], index: 0 };
 
 const API_HEADERS = { apikey: SUPABASE_KEY };
 
+// Helper functions
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+function setActiveTab(btnId) {
+  $$('.segment-btn').forEach(b => b.classList.remove('selected'));
+  $(btnId)?.classList.add('selected');
+}
+
+function toggleHeroSection(show) {
+  const hero = $('#heroSection');
+  if(show) hero.classList.remove('hidden');
+  else hero.classList.add('hidden');
+}
+
+function toggleNavTabs(show) {
+  const nav = $('#navTabs');
+  if(show) nav.classList.remove('hidden');
+  else nav.classList.add('hidden');
+}
+
+function navigateToTab(tabName) {
+  if (tabName === TAB_HOME) {
+    tabHistory = [];
+    load();
+  } else {
+    tabHistory.push('peñas');
+    window.history.pushState({ tab: tabName }, '', `#${tabName}`);
+    const tabMap = { [TAB_TRUCO]: trucoInit, [TAB_GASTOS]: gastosInit, [TAB_STATS]: stats, [TAB_RULES]: rules };
+    tabMap[tabName]?.();
+  }
+}
+
+function goBackToPreviousTab() {
+  if (tabHistory.length === 0) { load(); return; }
+  const previousTab = tabHistory.pop();
+  window.history.pushState({ tab: previousTab }, '', `#${previousTab}`);
+  const tabMap = { [TAB_HOME]: load, [TAB_TRUCO]: trucoInit, [TAB_GASTOS]: gastosInit, [TAB_STATS]: stats, [TAB_RULES]: rules };
+  tabMap[previousTab]?.();
+}
+
 function supaFetch(path, options={}, isStorage=false){
   const url = isStorage ? `${SUPABASE_URL}/${path}` : `${SUPABASE_URL}/rest/v1/${path}`;
-  
-  // Headers base
   const headers = Object.assign({}, API_HEADERS, options.headers||{});
-
-  // SI TENEMOS TOKEN, LO USAMOS EN LUGAR DE LA APIKEY PARA AUTH
-  if (sessionToken) {
-    headers['Authorization'] = `Bearer ${sessionToken}`;
-  } else {
-    // Fallback por si acaso, aunque en modelo privado esto fallará para lectura
-    headers['Authorization'] = 'Bearer ' + SUPABASE_KEY;
-  }
+  if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`;
+  else headers['Authorization'] = 'Bearer ' + SUPABASE_KEY;
 
   return fetch(url, Object.assign({ cache:'no-store' }, options, { headers }))
     .then(res => {
-      // Si el token expiró o es inválido (401), cerramos sesión
       if(res.status === 401 && sessionToken) {
-         localStorage.removeItem('pena_token');
-         localStorage.removeItem('pena_auth');
-         sessionToken = null;
-         location.reload(); 
+         localStorage.removeItem('pena_token'); localStorage.removeItem('pena_auth');
+         sessionToken = null; location.reload(); 
       }
       return res;
     });
@@ -513,434 +788,556 @@ function togglePass(){ const i=document.getElementById('pass'); i.type=i.type===
 
 async function login(){
   const passInput = document.getElementById('pass').value || '';
-  const errDiv = document.getElementById('err');
-  const btn = document.querySelector('#login button');
-  
+  const errDiv = document.getElementById('err'); const btn = document.querySelector('#login button');
   errDiv.style.display='none';
   if(!passInput.trim()){ errDiv.style.display='block'; return; }
-
-  // Feedback visual
-  const originalText = btn.innerText;
-  btn.innerText = "Verificando...";
-  btn.disabled = true;
-
+  const originalText = btn.innerText; btn.innerText = "Verificando..."; btn.disabled = true;
   try {
-    const emailFijo = "toto@penas.com";
     const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: emailFijo, password: passInput })
+      method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: "toto@penas.com", password: passInput })
     });
-
     const data = await res.json();
     if (!res.ok || !data.access_token) { throw new Error('Pass incorrecta'); }
-
-    sessionToken = data.access_token;
-    localStorage.setItem('pena_token', sessionToken);
-    localStorage.setItem('pena_auth', 'ok'); 
-
-    document.getElementById('login').style.display='none';
-    document.getElementById('mainContainer').style.display='block';
-    load();
-
-  } catch(e) {
-    console.warn(e); errDiv.textContent = "Código incorrecto"; errDiv.style.display = 'block';
-  } finally {
-    btn.innerText = originalText; btn.disabled = false;
-  }
+    sessionToken = data.access_token; localStorage.setItem('pena_token', sessionToken); localStorage.setItem('pena_auth', 'ok'); 
+    document.getElementById('login').style.display='none'; document.getElementById('mainContainer').style.display='block'; load();
+  } catch(e) { console.warn(e); errDiv.textContent = "Código incorrecto"; errDiv.style.display = 'block';
+  } finally { btn.innerText = originalText; btn.disabled = false; }
 }
 
-function openModal(url){ document.getElementById('modalImg').src=url; document.getElementById('modal').style.display='flex'; }
-function closeModal(){ document.getElementById('modal').style.display='none'; }
-
-/* =========================================
-   DATE HELPER
-   ========================================= */
 function formatDateSafe(dateString) {
   if(!dateString) return '';
-  const parts = dateString.split('-');
-  if(parts.length < 3) return dateString;
-  const year = parseInt(parts[0]);
-  const month = parseInt(parts[1]) - 1; 
-  const day = parseInt(parts[2]);
-  const date = new Date(year, month, day);
+  const parts = dateString.split('-'); if(parts.length < 3) return dateString;
+  const date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
   return date.toLocaleDateString('es-AR', {weekday:'short', day:'numeric', month:'short'});
 }
 
-/* =========================================
-   UI LOGIC & RENDERING
-   ========================================= */
+/* ===================== LIGHTBOX LOGIC & SWIPE ===================== */
+let currentPhotos = []; 
+let touchStartX = 0;
+let touchEndX = 0;
+let isZoomed = false;
 
-async function start(prefill){
-  document.getElementById('navTabs').classList.add('hidden');
-  document.getElementById('heroSection').classList.add('hidden');
+function openGallery(photosArray, startIndex) {
+  galleryState.images = photosArray;
+  galleryState.index = startIndex;
   
-  const partJson = await (await supaFetch('participantes?select=nombre&order=nombre.asc')).json();
-  const sedJson  = await (await supaFetch('sedes?select=nombre&order=nombre.asc')).json();
-  const part = Array.isArray(partJson)?partJson.map(x=>x.nombre):[];
-  const sed  = Array.isArray(sedJson)?sedJson.map(x=>x.nombre):[];
-  const all=[...new Set([...part,...sed])].sort();
+  // Push state to handle Back Button
+  window.history.pushState({ modalOpen: true }, "", "");
+  document.getElementById('modal').style.display = 'flex';
+  document.getElementById('modal').classList.add('active');
+  
+  updateGallery();
+  renderThumbs();
+}
 
-  const preSede=prefill?.sede||'';
-  const preParticipantes=new Set(prefill?.participantes||[]);
-  const preFecha = prefill?.fecha || new Date().toLocaleDateString('en-CA'); 
+function updateGallery() {
+  const img = $('#modalImg');
+  const counter = $('#modalCounter');
+  
+  isZoomed = false;
+  img.classList.remove('zoomed');
+  img.style.opacity = '0';
+  
+  const url = galleryState.images[galleryState.index];
+  loadImageWithAuth(url, null, img, null, 'penas-fotos');
+  
+  img.onload = () => { img.style.opacity = '1'; };
+  
+  const current = galleryState.index + 1;
+  const total = galleryState.images.length;
+  counter.textContent = `${current} / ${total}`;
+  
+  $$('.modal-thumb').forEach((thumb, i) => {
+    thumb.classList.toggle('active', i === galleryState.index);
+  });
+  
+  const activeThumb = $('.modal-thumb.active');
+  if (activeThumb) {
+    activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+}
+
+function renderThumbs() {
+  const container = $('#modalThumbs');
+  container.innerHTML = '';
+  
+  galleryState.images.forEach((url, i) => {
+    const thumb = document.createElement('img');
+    thumb.className = `modal-thumb ${i === galleryState.index ? 'active' : ''}`;
+    thumb.onclick = () => goToImage(i);
+    container.appendChild(thumb);
+    loadImageWithAuth(url, null, thumb, null, 'penas-fotos');
+  });
+}
+
+function nextImage() {
+  galleryState.index = (galleryState.index + 1) % galleryState.images.length;
+  updateGallery();
+}
+
+function prevImage() {
+  galleryState.index = (galleryState.index - 1 + galleryState.images.length) % galleryState.images.length;
+  updateGallery();
+}
+
+function goToImage(index) {
+  galleryState.index = index;
+  updateGallery();
+}
+
+function toggleZoom() {
+  const img = $('#modalImg');
+  isZoomed = !isZoomed;
+  img.classList.toggle('zoomed', isZoomed);
+}
+
+function closeModal() {
+  const modal = $('#modal');
+  modal.style.display = 'none';
+  modal.classList.remove('active');
+  $('#modalCounter').style.display = 'block';
+  $('#modalThumbs').innerHTML = '';
+  if (history.state && history.state.modalOpen) { history.back(); }
+}
+
+// Swipe Gesture Logic with improved sensitivity
+const modalMain = document.querySelector('.modal-main');
+modalMain.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+modalMain.addEventListener('touchend', e => {
+    if (isZoomed) return; // Disable swipe when zoomed
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+    const diff = touchStartX - touchEndX;
+    const threshold = 60;
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextImage();
+      } else {
+        prevImage();
+      }
+    }
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('modal').style.display === 'flex') {
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'Escape') closeModal();
+  }
+});
+
+window.onpopstate = function(event) {
+  const modal = $('#modal');
+  if (modal && modal.classList.contains('active')) {
+    modal.style.display = 'none';
+    modal.classList.remove('active');
+    return;
+  }
+  
+  const state = event.state;
+  if (!state) return;
+  
+  if (state.screen === 'editor') { cancelStart(); return; }
+  if (state.screen === 'trucoBoard') { goBackFromTrucoBoard(); return; }
+  
+  if (state.tab && tabHistory.length > 0) {
+    const previousTab = tabHistory.pop();
+    const tabMap = { [TAB_HOME]: load, [TAB_TRUCO]: trucoInit, [TAB_GASTOS]: gastosInit, [TAB_STATS]: stats, [TAB_RULES]: rules };
+    tabMap[previousTab]?.();
+  } else if (state.tab) {
+    load();
+  }
+};
+
+/* ===================== UI LOGIC ===================== */
+async function start(prefill){
+  toggleNavTabs(false);
+  toggleHeroSection(false);
+  window.history.pushState({ screen: 'editor' }, '', '#editor');
+  
+  const [partJson, sedJson] = await Promise.all([
+    supaFetch('participantes?select=nombre&order=nombre.asc').then(r => r.json()),
+    supaFetch('sedes?select=nombre&order=nombre.asc').then(r => r.json())
+  ]);
+  
+  const part = Array.isArray(partJson) ? partJson.map(x => x.nombre) : [];
+  const sed = Array.isArray(sedJson) ? sedJson.map(x => x.nombre) : [];
+  const all = [...new Set([...part, ...sed])].sort();
+
+  const preSede = prefill?.sede || '';
+  const preParticipantes = new Set(prefill?.participantes || []);
+  const preFecha = prefill?.fecha || new Date().toLocaleDateString('en-CA');
+  
+  editorExistingPhotos = prefill?.existingPhotos || [];
+  selectedPhotoFiles = [];
 
   app.innerHTML=`
     <div style="padding-top:10px; animation: fadeIn 0.3s ease">
-      <div class="form-header-row">
-         <button class="btn-back-circle" onclick="cancelStart()">←</button>
-         <h2 style="margin:0;color:var(--text);font-size:24px">${editingPenaId ? 'Editar Peña' : 'Nueva Peña'}</h2>
-      </div>
+      <div class="form-header-row"><button class="btn-back-circle" onclick="cancelStart()">←</button><h2 style="margin:0;color:var(--text);font-size:24px">${editingPenaId ? 'Editar Peña' : 'Nueva Peña'}</h2></div>
+      <div class="form-group"><label class="form-label">FECHA</label><input id="penaFecha" type="date" value="${preFecha}" /></div>
+      <div class="form-group"><label class="form-label">SEDE</label><div class="chips-container" id="sedes">${all.map(s=>`<div class="chip" data-sede="${s}">${s}</div>`).join('')}</div><div class="chips-container" style="flex-wrap:nowrap"><input id="newSede" placeholder="Agregar nueva sede..." style="padding:10px;font-size:14px" /><button id="addSedeBtn" class="btn-small">+</button></div></div>
+      <div class="form-group"><label class="form-label">ASISTENTES</label><div class="chips-container" id="participantes">${part.map(p=>`<div class="chip" data-nombre="${p}">${p}</div>`).join('')}</div><div class="chips-container" style="flex-wrap:nowrap"><input id="newParticipante" placeholder="Agregar nuevo..." style="padding:10px;font-size:14px" /><button id="addParticipanteBtn" class="btn-small">+</button></div></div>
+      <div class="form-group"><label class="form-label">FOTOS</label><div style="display:flex; gap:12px; margin-bottom: 12px"><label for="fotoCam" class="upload-box" style="flex:1; padding:20px 10px; border-style:solid; background:rgba(117,170,219,0.05)"><div style="font-size:24px;margin-bottom:6px">📷</div><div style="font-size:12px;font-weight:700;color:var(--celeste)">CÁMARA</div></label><label for="foto" class="upload-box" style="flex:1; padding:20px 10px"><div style="font-size:24px;margin-bottom:6px">🖼️</div><div style="font-size:12px;font-weight:700">GALERÍA</div></label></div><input id="foto" type="file" accept="image/*" multiple style="display:none" /><input id="fotoCam" type="file" accept="image/*" capture="environment" style="display:none" /><div id="fotoPreview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div></div>
+      <div class="form-group"><label class="form-label">COMENTARIOS</label><div class="chips-container" style="flex-wrap:nowrap;margin-bottom:10px"><input id="newComment" placeholder="Escribir nota..." style="padding:10px;font-size:14px" /><button id="addCommentBtn" class="btn-small">+</button></div><div id="commentsList" style="display:flex;flex-direction:column;gap:8px"></div></div>
+      <div class="form-footer"><button onclick="cancelStart()" class="btn-main btn-cancel">Cancelar</button><button id="saveBtn" onclick="save()" class="btn-main btn-save"><span class="spinner" style="display:none"></span><span class="btn-text">Guardar</span></button></div>
+    </div>`;
 
-      <div class="form-group">
-        <label class="form-label">FECHA</label>
-        <input id="penaFecha" type="date" value="${preFecha}" />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">SEDE</label>
-        <div class="chips-container" id="sedes">${all.map(s=>`<div class="chip" data-sede="${s}">${s}</div>`).join('')}</div>
-        <div class="chips-container" style="flex-wrap:nowrap">
-          <input id="newSede" placeholder="Agregar nueva sede..." style="padding:10px;font-size:14px" />
-          <button id="addSedeBtn" class="btn-small">+</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">ASISTENTES</label>
-        <div class="chips-container" id="participantes">${part.map(p=>`<div class="chip" data-nombre="${p}">${p}</div>`).join('')}</div>
-        <div class="chips-container" style="flex-wrap:nowrap">
-          <input id="newParticipante" placeholder="Agregar nuevo..." style="padding:10px;font-size:14px" />
-          <button id="addParticipanteBtn" class="btn-small">+</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">FOTOS</label>
-        <div style="display:flex; gap:12px; margin-bottom: 12px">
-          <label for="fotoCam" class="upload-box" style="flex:1; padding:20px 10px; border-style:solid; background:rgba(117,170,219,0.05)">
-            <div style="font-size:24px;margin-bottom:6px">📷</div>
-            <div style="font-size:12px;font-weight:700;color:var(--celeste)">CÁMARA</div>
-          </label>
-          <label for="foto" class="upload-box" style="flex:1; padding:20px 10px">
-            <div style="font-size:24px;margin-bottom:6px">🖼️</div>
-            <div style="font-size:12px;font-weight:700">GALERÍA</div>
-          </label>
-        </div>
-        <input id="foto" type="file" accept="image/*" multiple style="display:none" />
-        <input id="fotoCam" type="file" accept="image/*" capture="environment" style="display:none" />
-        <div id="fotoPreview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">COMENTARIOS</label>
-        <div class="chips-container" style="flex-wrap:nowrap;margin-bottom:10px">
-          <input id="newComment" placeholder="Escribir nota..." style="padding:10px;font-size:14px" />
-          <button id="addCommentBtn" class="btn-small">+</button>
-        </div>
-        <div id="commentsList" style="display:flex;flex-direction:column;gap:8px"></div>
-      </div>
-
-      <div class="form-footer">
-        <button onclick="cancelStart()" class="btn-main btn-cancel">Cancelar</button>
-        <button id="saveBtn" onclick="save()" class="btn-main btn-save">
-          <span class="spinner" style="display:none"></span>
-          <span class="btn-text">Guardar</span>
-        </button>
-      </div>
-    </div>
-  `;
-
-  document.querySelectorAll('#sedes .chip').forEach(p=>{
-    p.onclick=()=>{document.querySelectorAll('#sedes .chip').forEach(x=>x.classList.remove('selected'));p.classList.add('selected');};
-    if(preSede && p.dataset.sede===preSede) p.classList.add('selected');
-  });
-  document.querySelectorAll('#participantes .chip').forEach(p=>{
-    p.onclick=()=>p.classList.toggle('selected');
-    if(preParticipantes.has(p.dataset.nombre)) p.classList.add('selected');
-  });
-
-  const handleFiles = (files) => {
-    const preview = app.querySelector('#fotoPreview'); if(!preview) return;
-    [...files].forEach(f => {
-      selectedPhotoFiles.push(f);
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(f);
-      img.style.width = '100%'; img.style.borderRadius = '8px'; img.style.aspectRatio = '1'; img.style.objectFit = 'cover';
-      preview.appendChild(img);
-    });
+  document.querySelectorAll('#sedes .chip').forEach(p=>{ p.onclick=()=>{document.querySelectorAll('#sedes .chip').forEach(x=>x.classList.remove('selected'));p.classList.add('selected');}; if(preSede && p.dataset.sede===preSede) p.classList.add('selected'); });
+  document.querySelectorAll('#participantes .chip').forEach(p=>{ p.onclick=()=>p.classList.toggle('selected'); if(preParticipantes.has(p.dataset.nombre)) p.classList.add('selected'); });
+  
+  const handleFiles = (files) => { 
+    [...files].forEach(f => selectedPhotoFiles.push(f)); 
+    renderPhotoPreview();
   };
-
-  document.getElementById('foto').onchange = e => { handleFiles(e.target.files); e.target.value = ''; };
+  
+  document.getElementById('foto').onchange = e => { handleFiles(e.target.files); e.target.value = ''; }; 
   document.getElementById('fotoCam').onchange = e => { handleFiles(e.target.files); e.target.value = ''; };
+  
+  renderPhotoPreview();
 
   penaComments = prefill?.comentarios ? (Array.isArray(prefill.comentarios)? [...prefill.comentarios] : [prefill.comentarios]) : [];
-  const renderComments = () => {
-    const list = app.querySelector('#commentsList'); if(!list) return;
-    list.innerHTML = penaComments.map((c,i)=>`
-      <div style="background:var(--surface-light);padding:12px;border-radius:10px;font-size:14px;display:flex;justify-content:space-between;align-items:center">
-        <span>${c}</span><span style="color:#ff6b6b;font-weight:bold;margin-left:10px;cursor:pointer;padding:4px" onclick="removeComment(${i})">✕</span>
-      </div>`).join('');
-  };
-  window.removeComment = function(i){ penaComments.splice(i,1); renderComments(); };
-  document.getElementById('addCommentBtn').onclick = () => {
-    const v = document.getElementById('newComment').value.trim();
-    if(!v) return; penaComments.push(v); document.getElementById('newComment').value = ''; renderComments();
-  };
-  renderComments();
-
-  document.getElementById('addSedeBtn').onclick = () => {
-    const input = document.getElementById('newSede'); const val = input.value.trim(); if(!val) return;
-    const container = document.getElementById('sedes');
-    let chip = [...container.querySelectorAll('.chip')].find(x => x.dataset.sede === val);
-    if(!chip){
-      chip = document.createElement('div'); chip.className = 'chip'; chip.dataset.sede = val; chip.textContent = val;
-      chip.onclick = () => { container.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected')); chip.classList.add('selected'); };
-      container.appendChild(chip);
-    }
-    container.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected')); chip.classList.add('selected'); input.value = '';
-  };
-
-  document.getElementById('addParticipanteBtn').onclick = () => {
-    const input = document.getElementById('newParticipante'); const val = input.value.trim(); if(!val) return;
-    const container = document.getElementById('participantes');
-    let chip = [...container.querySelectorAll('.chip')].find(x => x.dataset.nombre === val);
-    if(!chip){
-      chip = document.createElement('div'); chip.className = 'chip'; chip.dataset.nombre = val; chip.textContent = val;
-      chip.onclick = () => chip.classList.toggle('selected');
-      container.appendChild(chip);
-    }
-    chip.classList.add('selected'); input.value = '';
-  };
+  const renderComments = () => { const list = app.querySelector('#commentsList'); if(!list) return; list.innerHTML = penaComments.map((c,i)=>`<div style="background:var(--surface-light);padding:12px;border-radius:10px;font-size:14px;display:flex;justify-content:space-between;align-items:center"><span>${c}</span><span style="color:#ff6b6b;font-weight:bold;margin-left:10px;cursor:pointer;padding:4px" onclick="removeComment(${i})">✕</span></div>`).join(''); };
+  window.removeComment = function(i){ penaComments.splice(i,1); renderComments(); }; document.getElementById('addCommentBtn').onclick = () => { const v = document.getElementById('newComment').value.trim(); if(!v) return; penaComments.push(v); document.getElementById('newComment').value = ''; renderComments(); }; renderComments();
+  document.getElementById('addSedeBtn').onclick = () => { const input = document.getElementById('newSede'); const val = input.value.trim(); if(!val) return; const container = document.getElementById('sedes'); let chip = [...container.querySelectorAll('.chip')].find(x => x.dataset.sede === val); if(!chip){ chip = document.createElement('div'); chip.className = 'chip'; chip.dataset.sede = val; chip.textContent = val; chip.onclick = () => { container.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected')); chip.classList.add('selected'); }; container.appendChild(chip); } container.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected')); chip.classList.add('selected'); input.value = ''; };
+  document.getElementById('addParticipanteBtn').onclick = () => { const input = document.getElementById('newParticipante'); const val = input.value.trim(); if(!val) return; const container = document.getElementById('participantes'); let chip = [...container.querySelectorAll('.chip')].find(x => x.dataset.nombre === val); if(!chip){ chip = document.createElement('div'); chip.className = 'chip'; chip.dataset.nombre = val; chip.textContent = val; chip.onclick = () => chip.classList.toggle('selected'); container.appendChild(chip); } chip.classList.add('selected'); input.value = ''; };
 }
 
+function renderPhotoPreview() {
+    const preview = app.querySelector('#fotoPreview'); 
+    if(!preview) return; 
+    preview.innerHTML = '';
+
+    // Render Existing Photos with Delete Button
+    editorExistingPhotos.forEach((url, i) => {
+        const div = document.createElement('div'); 
+        div.className = 'preview-wrapper';
+        
+        const img = document.createElement('img');
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.1)';
+        loadImageWithAuth(url, null, img, null, 'penas-fotos');
+        
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'btn-delete-photo';
+        deleteBtn.textContent = '✕';
+        deleteBtn.onclick = () => removeExistingPhoto(i);
+        
+        div.appendChild(img);
+        div.appendChild(deleteBtn);
+        preview.appendChild(div);
+    });
+
+    // Render New Files with Delete Button
+    selectedPhotoFiles.forEach((f, i) => {
+        const div = document.createElement('div'); 
+        div.className = 'preview-wrapper';
+        const url = URL.createObjectURL(f);
+        div.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid var(--celeste)">
+                         <div class="btn-delete-photo" onclick="removeNewFile(${i})">✕</div>`;
+        preview.appendChild(div);
+    });
+}
+window.removeExistingPhoto = function(i) { editorExistingPhotos.splice(i, 1); renderPhotoPreview(); }
+window.removeNewFile = function(i) { selectedPhotoFiles.splice(i, 1); renderPhotoPreview(); }
+
 function cancelStart(){ 
-  editingPenaId=null; penaComments = []; app.innerHTML=''; 
-  document.getElementById('navTabs').classList.remove('hidden');
-  document.getElementById('heroSection').classList.remove('hidden');
+  editingPenaId=null; 
+  penaComments = []; 
+  editorExistingPhotos = []; 
+  selectedPhotoFiles = []; 
+  app.innerHTML=''; 
+  toggleNavTabs(true);
+  toggleHeroSection(true);
+  if (history.state && history.state.screen === 'editor') {
+    history.back();
+  }
   load(); 
 }
 
 async function save(){
-  const sede = document.querySelector('#sedes .chip.selected')?.dataset.sede;
-  const participantesNombres = [...document.querySelectorAll('#participantes .chip.selected')].map(p => p.dataset.nombre);
-  const fecha = document.getElementById('penaFecha')?.value;
-  
+  const sede = $('#sedes .chip.selected')?.dataset.sede; 
+  const participantesNombres = [...$$('.participantes .chip.selected')].map(p => p.dataset.nombre); 
+  const fecha = $('#penaFecha')?.value;
   if(!sede || !participantesNombres.length || !fecha) return alert('Faltan datos obligatorios');
-
-  const saveBtn = document.getElementById('saveBtn');
-  const spinner = saveBtn?.querySelector('.spinner');
+  const saveBtn = $('#saveBtn'); 
+  const spinner = saveBtn?.querySelector('.spinner'); 
   const textSpan = saveBtn?.querySelector('.btn-text');
-  
-  if(saveBtn){ 
-    saveBtn.disabled = true; 
-    if(spinner) spinner.style.display='inline-block'; 
-    if(textSpan) textSpan.textContent = 'Guardando...'; 
-  }
-
+  if(saveBtn){ saveBtn.disabled = true; if(spinner) spinner.style.display='inline-block'; if(textSpan) textSpan.textContent = 'Guardando...'; }
   try {
-    let pena;
+    let pena; 
     const penaData = { sede, fecha, deleted_at: null };
-    
     if(editingPenaId){
       const r = await supaFetch(`penas?id=eq.${editingPenaId}`, {method:'PATCH',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(penaData)});
-      if(!r.ok) throw new Error('Error actualizando peña');
+      if(!r.ok) throw new Error('Error update'); 
       pena = (await r.json())[0];
-      await Promise.all([
-        supaFetch(`pena_participantes?pena_id=eq.${editingPenaId}`, { method: 'DELETE' }),
-        supaFetch(`pena_comentarios?pena_id=eq.${editingPenaId}`, { method: 'DELETE' })
+      await Promise.all([ 
+        supaFetch(`pena_participantes?pena_id=eq.${editingPenaId}`, { method: 'DELETE' }), 
+        supaFetch(`pena_comentarios?pena_id=eq.${editingPenaId}`, { method: 'DELETE' }),
+        supaFetch(`pena_fotos?pena_id=eq.${editingPenaId}`, { method: 'DELETE' })
       ]);
     } else {
       const r = await supaFetch('penas', {method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(penaData)});
-      if(!r.ok) throw new Error('Error creando peña');
+      if(!r.ok) throw new Error('Error create'); 
       pena = (await r.json())[0];
     }
-
     const nombresStr = participantesNombres.map(n => `"${n}"`).join(','); 
-    const rPart = await supaFetch(`participantes?nombre=in.(${nombresStr})`);
+    const rPart = await supaFetch(`participantes?nombre=in.(${nombresStr})`); 
     const existentes = await rPart.json();
-    const existentesNombres = new Set(existentes.map(e => e.nombre));
+    const existentesNombres = new Set(existentes.map(e => e.nombre)); 
     const nuevosNombres = participantesNombres.filter(n => !existentesNombres.has(n));
-
-    let nuevosIDs = [];
-    if(nuevosNombres.length > 0) {
-      const rNew = await supaFetch('participantes', {method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(nuevosNombres.map(n => ({ nombre: n }))) });
-      const creados = await rNew.json();
-      nuevosIDs = creados.map(c => c.id);
+    let nuevosIDs = []; 
+    if(nuevosNombres.length > 0) { 
+      const rNew = await supaFetch('participantes', {method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(nuevosNombres.map(n => ({ nombre: n }))) }); 
+      const creados = await rNew.json(); 
+      nuevosIDs = creados.map(c => c.id); 
     }
-
     const todosIDs = [...existentes.map(e => e.id), ...nuevosIDs];
-    if(todosIDs.length > 0){
-      const vinculos = todosIDs.map(pid => ({ pena_id: pena.id, participante_id: pid }));
-      await supaFetch('pena_participantes', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(vinculos)});
+    if(todosIDs.length > 0){ 
+      const vinculos = todosIDs.map(pid => ({ pena_id: pena.id, participante_id: pid })); 
+      await supaFetch('pena_participantes', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(vinculos)}); 
     }
-
+    
+    let finalPhotoUrls = [...editorExistingPhotos];
     if(selectedPhotoFiles.length > 0) {
       const uploadPromises = selectedPhotoFiles.map(async (f) => {
         const name = `pena-${Date.now()}-${Math.random().toString(36).slice(2)}.${f.name.split('.').pop()}`;
-        await supaFetch(`storage/v1/object/penas-fotos/${name}`, {method:'PUT',headers:{'Content-Type':f.type},body:f}, true);
-        return `${SUPABASE_URL}/storage/v1/object/public/penas-fotos/${name}`;
+        const uploadRes = await supaFetch(`storage/v1/object/penas-fotos/${name}`, {method:'PUT',headers:{'Content-Type':f.type},body:f}, true);
+        if(!uploadRes.ok) throw new Error(`Error subiendo foto ${name}: ${uploadRes.statusText}`);
+        return name;
       });
-      const urls = await Promise.all(uploadPromises);
-      const fotosData = urls.map(url => ({ pena_id: pena.id, foto_url: url }));
-      await supaFetch('pena_fotos', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(fotosData)});
+      const newNames = await Promise.all(uploadPromises);
+      finalPhotoUrls = [...finalPhotoUrls, ...newNames];
     }
-
-    if(penaComments.length > 0) {
-      const comentariosData = penaComments.map(c => ({ pena_id: pena.id, comentario: c }));
-      await supaFetch('pena_comentarios', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(comentariosData)});
-      try { await supaFetch(`penas?id=eq.${pena.id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ comentarios: penaComments }) }); } catch(e){}
+    
+    if(finalPhotoUrls.length > 0) { 
+      const fotosData = finalPhotoUrls.map(url => ({ pena_id: pena.id, foto_url: url })); 
+      await supaFetch('pena_fotos', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(fotosData)}); 
     }
-
-    selectedPhotoFiles = []; penaComments = []; editingPenaId = null; app.innerHTML = '';
-    document.getElementById('navTabs').classList.remove('hidden');
-    document.getElementById('heroSection').classList.remove('hidden');
+    
+    if(penaComments.length > 0) { 
+      const comentariosData = penaComments.map(c => ({ pena_id: pena.id, comentario: c })); 
+      await supaFetch('pena_comentarios', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(comentariosData)}); 
+      try { await supaFetch(`penas?id=eq.${pena.id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ comentarios: penaComments }) }); } catch(e){} 
+    }
+    selectedPhotoFiles = []; editorExistingPhotos = []; penaComments = []; editingPenaId = null; app.innerHTML = ''; 
+    toggleNavTabs(true);
+    toggleHeroSection(true);
     await load(); 
-
-  } catch(err) {
-    console.error(err); alert('Error al guardar: ' + err.message);
-  } finally {
-    if(saveBtn){ if(spinner) spinner.style.display='none'; if(textSpan) textSpan.textContent = 'Guardar'; saveBtn.disabled = false; }
-  }
+  } catch(err) { console.error('Error detallado:', err); alert('Error: ' + err.message); } finally { if(saveBtn){ if(spinner) spinner.style.display='none'; if(textSpan) textSpan.textContent = 'Guardar'; saveBtn.disabled = false; } }
 }
 
 async function load(){
-  document.getElementById('btnLoad')?.classList.add('selected');
-  document.getElementById('btnStats')?.classList.remove('selected');
-  document.getElementById('btnRules')?.classList.remove('selected');
-  document.getElementById('btnTruco')?.classList.remove('selected');
-  document.getElementById('heroSection').classList.remove('hidden'); 
+  setActiveTab('#btnLoad');
+  toggleHeroSection(true);
   
-  const data=await (await supaFetch('penas?select=id,fecha,sede,pena_fotos(foto_url),pena_participantes!inner(participantes(nombre)),pena_comentarios(comentario)&pena_participantes.deleted_at=is.null&deleted_at=is.null&order=fecha.desc')).json();
+  const res = await supaFetch('penas?select=id,fecha,sede,pena_fotos(foto_url),pena_participantes!inner(participantes(nombre)),pena_comentarios(comentario),truco_partidos(id,ganador,puntos_nosotros,puntos_ellos,truco_jugadores(equipo,participantes(nombre)))&pena_participantes.deleted_at=is.null&deleted_at=is.null&order=fecha.desc');
+  const data = await res.json();
   
   if(!data.length){ 
-    app.innerHTML=`<div style="text-align:center;margin-top:60px;color:var(--text-muted);opacity:0.6">
-      <div style="font-size:40px;margin-bottom:10px">📭</div>
-      No hay peñas registradas aún
-    </div>`; 
+    app.innerHTML=`<div style="text-align:center;margin-top:60px;color:var(--text-muted);opacity:0.6"><div style="font-size:40px;margin-bottom:10px">📭</div>No hay peñas registradas aún</div>`; 
     return; 
   }
-
-  app.innerHTML = data.map(p=>{
-    const fotos=p.pena_fotos||[]; const preview=fotos[0]?.foto_url;
-    const parts=(p.pena_participantes||[]).map(x=>x.participantes.nombre).join(', ');
-    const comments=(p.pena_comentarios||[]);
+  
+  const penaHtmls = data.map(p => {
+    const fotos = p.pena_fotos || [];
+    const parts = (p.pena_participantes || []).map(x => x.participantes.nombre).join(', ');
+    const comments = p.pena_comentarios || [];
     const fechaFormatted = formatDateSafe(p.fecha.slice(0,10));
-    
-    const imagesHtml = fotos.length ? 
-      `<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-top:10px">
-         ${fotos.map(f=>`<img src="${f.foto_url}" style="height:100px;border-radius:8px" onclick="event.stopPropagation();openModal('${f.foto_url}')">`).join('')}
-       </div>` : '';
+    const fotosList = fotos.map(f => f.foto_url);
+    const penaId = p.id;
+    const preview = fotos[0]?.foto_url;
 
-    const commentsHtml = comments.length ? 
-      `<div class="detail-section"><span class="detail-label">Notas</span>${comments.map(c=>`<div>• ${c.comentario}</div>`).join('')}</div>` : '';
-
-    const thumb = preview 
-      ? `<img class="thumb" src="${preview}" />` 
-      : `<div class="thumb">🍺</div>`;
-
-    return `
-    <div class="item" onclick="toggleDetail(this)">
-      <div class="pena-header">
-        ${thumb}
-        <div class="pena-info">
-          <strong>📌 ${p.sede}</strong>
-          <div class="pena-date">
-             <span>📅</span> ${fechaFormatted}
-          </div>
-        </div>
-        <div style="display:flex;gap:6px">
-          <div class="action-icon" onclick="event.stopPropagation();editPena(${p.id})">✏️</div>
-          <div class="action-icon" style="color:#ff6b6b" onclick="event.stopPropagation();toggleDeleteConfirm(event,${p.id})">🗑️</div>
-        </div>
-      </div>
-      
-      <div class="pena-detail" style="display:none">
+    const partidos = p.truco_partidos || [];
+    let partidosHtml = '';
+    if(partidos.length > 0) {
+      const playerStats = {};
+      partidos.forEach(match => { 
+        match.truco_jugadores.forEach(pl => { 
+          const name = pl.participantes.nombre; 
+          if(!playerStats[name]) playerStats[name] = { w:0, l:0 }; 
+          if(pl.equipo === match.ganador) playerStats[name].w++; 
+          else playerStats[name].l++; 
+        }); 
+      });
+      const statsArr = Object.entries(playerStats).map(([name, s]) => ({ name, w: s.w, l: s.l, total: s.w + s.l })).sort((a,b) => (b.w - a.w) || (a.l - b.l));
+      partidosHtml = `
         <div class="detail-section">
-          <span class="detail-label">Asistentes (${(p.pena_participantes||[]).length})</span>
-          <div style="color:var(--text-muted)">${parts}</div>
+          <span class="detail-label">Resultados Truco</span>
+          <table class="truco-mini-table">
+            <thead>
+              <tr>
+                <th>Jugador</th>
+                <th style="text-align:center">PJ</th>
+                <th style="text-align:center">PG</th>
+                <th style="text-align:center">PP</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${statsArr.map(s => `
+                <tr>
+                  <td class="player-name">${s.name}</td>
+                  <td style="text-align:center" class="stat-total">${s.total}</td>
+                  <td style="text-align:center" class="stat-win">${s.w}</td>
+                  <td style="text-align:center" class="stat-loss">${s.l}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+    
+    const imagesHtml = fotos.length ? `
+      <div class="detail-section">
+        <span class="detail-label">Fotos</span>
+        <div class="gallery-grid" id="fotosGrid-${penaId}"></div>
+        <div class="gallery-dots" id="dots-${penaId}">
+          ${fotos.map((_, i) => `<div class="gallery-dot ${i===0?'active':''}"></div>`).join('')}
         </div>
-        ${commentsHtml}
-        ${imagesHtml}
-      </div>
-    </div>`;
+      </div>` : '';
+    const commentsHtml = comments.length ? `<div class="detail-section"><span class="detail-label">Notas</span>${comments.map(c=>`<div>• ${c.comentario}</div>`).join('')}</div>` : '';
+    
+    return `<div class="item" onclick="toggleDetail(this)"><div class="pena-header"><div class="thumb" id="thumb-${penaId}">🍺</div><div class="pena-info"><strong>📌 ${p.sede}</strong><div class="pena-date"><span>📅</span> ${fechaFormatted}</div></div><div style="display:flex;gap:6px"><div class="action-icon" onclick="event.stopPropagation();editPena(${p.id})">✏️</div><div class="action-icon" style="color:#ff6b6b" onclick="event.stopPropagation();toggleDeleteConfirm(event,${p.id})">🗑️</div></div></div><div class="pena-detail" style="display:none"><div class="detail-section"><span class="detail-label">Asistentes (${(p.pena_participantes||[]).length})</span><div style="color:var(--text-muted)">${parts}</div></div>${commentsHtml}${imagesHtml}${partidosHtml}</div></div>`;
   }).join('');
-}
-
-function toggleDetail(card){ 
-  const d=card.querySelector('.pena-detail'); if(!d) return; 
-  const isOpen = d.style.display === 'block';
-  document.querySelectorAll('.pena-detail').forEach(x=>x.style.display='none');
-  d.style.display = isOpen ? 'none' : 'block';
-}
-
-function toggleDeleteConfirm(evt,id){
-  evt.stopPropagation();
-  const card = evt.target.closest('.item');
-  const existing = card.querySelector('.del-confirm');
-  if(existing){ existing.remove(); return; }
   
-  const div = document.createElement('div');
-  div.className = 'del-confirm';
-  div.style.marginTop = '12px'; div.style.textAlign = 'right';
-  div.innerHTML = `<button style="background:rgba(255, 77, 77, 0.15);color:#ff4d4d;border:1px solid #ff4d4d;padding:8px 16px;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer">Confirmar Eliminar</button>`;
-  div.firstChild.onclick = async (e)=>{
-    e.stopPropagation();
-    await supaFetch(`penas?id=eq.${id}`,{ method:'DELETE' });
-    load();
-  };
-  card.appendChild(div);
+  app.innerHTML = penaHtmls;
+  
+  data.forEach(p => {
+    const fotos = p.pena_fotos || [];
+    if(fotos.length > 0) {
+      const thumb = $(`#thumb-${p.id}`);
+      if(thumb && fotos[0]?.foto_url) {
+        loadImageWithAuth(fotos[0].foto_url, thumb, null, '🍺', 'penas-fotos');
+      }
+      const grid = $(`#fotosGrid-${p.id}`);
+      if(grid) {
+        const fotosUrls = fotos.map(f => f.foto_url);
+        fotos.forEach((f, index) => {
+          const img = document.createElement('img');
+          img.className = 'gallery-img';
+          img.onclick = (e) => { e.stopPropagation(); openGallery(fotosUrls, index); };
+          grid.appendChild(img);
+          loadImageWithAuth(f.foto_url, null, img, null, 'penas-fotos');
+        });
+
+        // Lógica de puntos dinámicos
+        grid.addEventListener('scroll', () => {
+          const index = Math.round(grid.scrollLeft / grid.offsetWidth);
+          const dots = document.querySelectorAll(`#dots-${p.id} .gallery-dot`);
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        });
+      }
+    }
+  });
 }
 
-async function editPena(id){
-  const r=await supaFetch(`penas?id=eq.${id}&select=id,sede,fecha,pena_participantes(participantes(nombre)),pena_comentarios(comentario)&pena_participantes.deleted_at=is.null`);
-  const rows=await r.json(); if(!rows.length) return;
-  const p=rows[0]; editingPenaId=id;
-  const participantes=(p.pena_participantes||[]).map(x=>x.participantes.nombre);
-  const comentarios = (p.pena_comentarios||[]).map(x=>x.comentario);
-  start({sede:p.sede,participantes,fecha:p.fecha.slice(0,10),comentarios});
-}
+function toggleDetail(card){ const d=card.querySelector('.pena-detail'); if(!d) return; const isOpen = d.style.display === 'block'; $$('.pena-detail').forEach(x=>x.style.display='none'); d.style.display = isOpen ? 'none' : 'block'; }
 
+function toggleDeleteConfirm(evt,id){ 
+  evt.stopPropagation(); 
+  const card = evt.target.closest('.item'); 
+  const existing = card.querySelector('.del-confirm'); 
+  if(existing){ existing.remove(); return; } 
+  const div = document.createElement('div'); 
+  div.className = 'del-confirm'; 
+  div.style.marginTop = '12px'; 
+  div.style.textAlign = 'right'; 
+  div.innerHTML = `<button style="background:rgba(255, 77, 77, 0.15);color:#ff4d4d;border:1px solid #ff4d4d;padding:8px 16px;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer">Confirmar Eliminar</button>`; 
+  div.firstChild.onclick = async (e)=>{ e.stopPropagation(); await supaFetch(`penas?id=eq.${id}`,{ method:'DELETE' }); load(); }; 
+  card.appendChild(div); 
+}
+async function editPena(id){ 
+  const r=await supaFetch(`penas?id=eq.${id}&select=id,sede,fecha,pena_participantes(participantes(nombre)),pena_comentarios(comentario),pena_fotos(foto_url)&pena_participantes.deleted_at=is.null`); 
+  const rows=await r.json(); 
+  if(!rows.length) return; 
+  const p=rows[0]; 
+  editingPenaId=id; 
+  const participantes=(p.pena_participantes||[]).map(x=>x.participantes.nombre); 
+  const comentarios = (p.pena_comentarios||[]).map(x=>x.comentario); 
+  const existingPhotos = (p.pena_fotos||[]).map(x=>x.foto_url);
+  start({sede:p.sede,participantes,fecha:p.fecha.slice(0,10),comentarios, existingPhotos}); 
+}
 async function stats(){
-  document.getElementById('btnStats')?.classList.add('selected');
-  document.getElementById('btnLoad')?.classList.remove('selected');
-  document.getElementById('btnRules')?.classList.remove('selected');
-  document.getElementById('btnTruco')?.classList.remove('selected');
-  document.getElementById('heroSection').classList.remove('hidden'); 
-  
+  setActiveTab('#btnStats');
+  toggleHeroSection(false);
+  app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div></div>';
   try{
-    const rows = await (await supaFetch('vw_asistencias?select=nombre,_count&order=_count.desc')).json();
-    if(!rows || !rows.length){ app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted)">Sin datos</div>'; return; }
-
-    const max = Math.max(...rows.map(r=>r._count || 0));
-
-    app.innerHTML = `<h3 style="margin:10px 0 20px;color:var(--gold);text-align:center;text-transform:uppercase;letter-spacing:2px;font-size:14px;animation:fadeIn 0.5s">Ranking de Asistencia</h3>` + rows.map((r,i)=>{
-      const v = r._count || 0;
-      const w = max ? Math.round((v/max)*100) : 0;
-      const medal = i===0 ? '🥇' : (i===1 ? '🥈' : (i===2 ? '🥉' : ''));
-      return `
-        <div class="stat-row">
-           <div style="width:30px;font-weight:bold;color:var(--text-muted);font-size:12px">#${i+1}</div>
-           <div style="width:100px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px">${r.nombre} ${medal}</div>
-           <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${w}%"></div></div>
-           <div style="width:24px;text-align:right;font-weight:bold;color:var(--gold)">${v}</div>
-        </div>
-      `;
+    const [asistData, trucoPlayers, trucoMatches, penasData] = await Promise.all([
+       supaFetch('vw_asistencias?select=nombre,_count&order=_count.desc').then(r=>r.json()),
+       supaFetch('truco_jugadores?select=participante_id,equipo,partido_id,participantes(nombre)').then(r=>r.json()),
+       supaFetch('truco_partidos?select=id,ganador').then(r=>r.json()),
+       supaFetch('penas?select=sede').then(r=>r.json())
+    ]);
+    let html = '';
+    if(asistData && asistData.length){ 
+      const max = Math.max(...asistData.map(r=>r._count || 0));
+      html += `<div class="stats-header">ASISTENCIA</div>` + asistData.map((r,i)=>{
+        const v = r._count || 0; const w = max ? Math.round((v/max)*100) : 0; const rankClass = i < 3 ? 'top-rank' : '';
+        return `<div class="stat-row ${rankClass}"><div style="width:30px;font-weight:bold;color:var(--text-muted);font-size:12px">#${i+1}</div><div style="width:100px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px">${r.nombre}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${w}%"></div></div><div style="width:24px;text-align:right;font-weight:bold;color:var(--gold)">${v}</div></div>`;
+      }).join('');
+    } else { html += '<div style="text-align:center;color:var(--text-muted);padding:20px">Sin datos</div>'; }
+    
+    const trucoStats = {};
+    const matchesMap = {};
+    trucoMatches.forEach(m => matchesMap[m.id] = m.ganador);
+    trucoPlayers.forEach(tp => { 
+      const pid = tp.participante_id; 
+      const nombre = tp.participantes.nombre; 
+      const ganadorPartido = matchesMap[tp.partido_id]; 
+      if(!trucoStats[pid]) trucoStats[pid] = { nombre, jugados: 0, ganados: 0 }; 
+      trucoStats[pid].jugados++; 
+      if(ganadorPartido && tp.equipo === ganadorPartido) trucoStats[pid].ganados++; 
+    });
+    const trucoArray = Object.values(trucoStats).map(s => ({ ...s, pct: s.jugados > 0 ? (s.ganados / s.jugados * 100) : 0 })).sort((a,b) => { if(b.pct !== a.pct) return b.pct - a.pct; return b.ganados - a.ganados; });
+    
+    html += `<div class="stats-header" style="margin-top:30px">TRUCO</div>`;
+    if(trucoArray.length > 0) {
+      html += `<div style="display:flex;padding:0 12px 8px 12px;font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase"><div style="flex:2">Jugador</div><div style="flex:1;text-align:center">PJ</div><div style="flex:1;text-align:center">PG</div><div style="flex:1;text-align:right">% Vic</div></div>`;
+      html += trucoArray.map((s, i) => `<div class="stat-row ${i < 3 ? 'top-rank' : ''}" style="padding:8px 12px"><div style="flex:2;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px"><span style="color:var(--text-muted);font-size:11px;margin-right:6px">#${i+1}</span> ${s.nombre}</div><div style="flex:1;text-align:center;color:var(--text-muted)">${s.jugados}</div><div style="flex:1;text-align:center;color:#fff">${s.ganados}</div><div style="flex:1;text-align:right;color:var(--gold);font-weight:bold">${Math.round(s.pct)}%</div></div>`).join('');
+    } else { html += '<div style="text-align:center;color:var(--text-muted);padding:20px">Sin datos</div>'; }
+    
+    const sedeStats = {};
+    penasData.forEach(p => { sedeStats[p.sede] = (sedeStats[p.sede] || 0) + 1; });
+    const totalSedes = Object.values(sedeStats).reduce((a,b) => a+b, 0);
+    const sedesArray = Object.entries(sedeStats).sort((a,b) => b[1] - a[1]);
+    const colors = ['#75AADB', '#F4B942', '#ff6b6b', '#4ade80', '#a78bfa'];
+    let startAngle = 0;
+    const donutSegments = sedesArray.map(([sede, count], i) => {
+      const pct = count / totalSedes;
+      const angle = pct * 360;
+      const endAngle = startAngle + angle;
+      const x1 = 50 + 40 * Math.cos(Math.PI * startAngle / 180);
+      const y1 = 50 + 40 * Math.sin(Math.PI * startAngle / 180);
+      const x2 = 50 + 40 * Math.cos(Math.PI * endAngle / 180);
+      const y2 = 50 + 40 * Math.sin(Math.PI * endAngle / 180);
+      const largeArc = angle > 180 ? 1 : 0;
+      const path = `<path d="M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${colors[i % colors.length]}"/>`;
+      startAngle = endAngle;
+      return path;
     }).join('');
-
-  }catch(e){ console.warn(e); }
+    const legend = sedesArray.map(([sede, count], i) => `<div style="display:flex;align-items:center;margin-bottom:4px;font-size:13px"><div style="width:12px;height:12px;border-radius:50%;background:${colors[i % colors.length]};margin-right:8px"></div><div style="flex:1">${sede}</div><div style="font-weight:bold;color:var(--gold)">${Math.round(count/totalSedes*100)}%</div></div>`).join('');
+    
+    html += `<div class="stats-header" style="margin-top:30px">SEDES MÁS USADAS</div>`;
+    html += `<div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:20px"><div style="position:relative;width:120px;height:120px"><svg viewBox="0 0 100 100" style="width:100%;height:100%">${donutSegments}<circle cx="50" cy="50" r="25" fill="var(--bg)"/></svg><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center"><div style="font-size:24px;font-weight:bold;color:var(--gold)">${totalSedes}</div><div style="font-size:10px;color:var(--text-muted)">TOTAL</div></div></div><div style="flex:1;max-width:160px">${legend}</div></div>`;
+    
+    app.innerHTML = html;
+  }catch(e){ console.warn(e); app.innerHTML = '<div style="text-align:center;padding:40px;color:#ff6b6b">Error cargando estadísticas</div>'; }
 }
-
 function rules(){
-  document.getElementById('btnRules').classList.add('selected');
-  document.getElementById('btnLoad').classList.remove('selected');
-  document.getElementById('btnStats').classList.remove('selected');
-  document.getElementById('btnTruco').classList.remove('selected');
-  document.getElementById('heroSection').classList.remove('hidden');
+  setActiveTab('#btnRules');
+  toggleHeroSection(false);
   
   const ruleContent = [
     { t: 'Artículo 1° – Objeto', c: 'El presente reglamento tiene por objeto establecer las normas de organización, participación y funcionamiento de las peñas, así como los criterios de asistencia, registro y eventuales sanciones o reconocimientos.' },
-    { t: 'Artículo 2° – Asistencia y obligación', c: 'Al día 30 de junio inclusive se cerrará el período Clausura, revisándose la asistencia acumulada y determinándose los dos (2) participantes con menor nivel de asistencia, quienes deberán asumir, de manera conjunta, el costo total de un asado destinado a la totalidad de los integrantes. Finalizada dicha instancia, el cómputo de asistencias se reiniciará desde cero, dando inicio al período Apertura, que se extenderá hasta el 31 de diciembre del corriente año, aplicándose al cierre de dicho período el mismo criterio y obligaciones.'},
+    { t: 'Artículo 2° – Asistencia y obligación', c: 'El presente artículo establece un régimen sancionatorio por inasistencia a las peñas. El 30 de junio del corriente año se cerrará el período Clausura y se evaluará la asistencia semestral, identificando a los dos participantes con menor concurrencia, quienes deberán asumir conjuntamente el costo de un asado para todos. Luego se reiniciará el cómputo de asistencias para el período Apertura, que finalizará el 31 de diciembre, aplicándose los mismos criterios.'},
+    { t: 'Artículo 2.1° – Desempate en sanción por asistencia', c: 'Ante un empate en la menor asistencia al cierre del período, perderá aquel con menor porcentaje de victorias en truco. Si el porcentaje también estuviere igualado, los participantes empatados podrán acordar de común acuerdo el método de desempate, siempre que cuente con el consentimiento de todos los involucrados.'},
     { t: 'Artículo 3° – Frecuencia', c: 'Las peñas se llevarán a cabo los días viernes o sábado, siempre y cuando se cuente con un mínimo de tres (3) participantes confirmados. En ausencia de dicho mínimo, la realización de la peña quedará automáticamente suspendida.' },
     { t: 'Artículo 4° – Registro', c: 'El registro oficial de asistencias y actividades se realizará exclusivamente mediante la aplicación <br><a href="https://shorturl.at/reQy5" target="_blank" class="rule-link">Peñas Rosarinas</a><br><br>Dicha herramienta deberá ser utilizada de manera responsable, veraz y diligente por todos los participantes, siendo la información allí consignada considerada válida a todos los efectos reglamentarios.' },
     { t: 'Artículo 5° – Premios', c: 'La eventual asignación de un premio para aquellos participantes que obtengan la mayor cantidad de victorias en el juego de truco queda pendiente de definición, debiendo ser resuelta mediante acuerdo posterior conforme a los mecanismos previstos en el presente reglamento.' },
@@ -954,275 +1351,698 @@ function rules(){
         <div class="rule-title">${r.t}</div>
         <div class="rule-content">${r.c}</div>
       </div>
-    `).join('');
+    `).join('') + `
+    <div class="firma-section">
+      <div class="firma-title">📖 Libro de Firmas</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;margin-bottom:20px" id="firmasGrid"></div>
+      <div class="firma-title">✍️ Tu Firma</div>
+      <div class="firma-canvas-wrapper">
+        <canvas id="firmaCanvas"></canvas>
+      </div>
+      <div class="firma-controls">
+        <button class="firma-btn firma-btn-clear" onclick="clearFirma()">🗑️ Limpiar</button>
+        <button class="firma-btn firma-btn-save" onclick="saveFirma()">💾 Firmar</button>
+      </div>
+    </div>
+  `;
+  
+  initFirmaCanvas();
+  setTimeout(() => loadFirmasRegistradasLibro(), 100);
 }
 
-/* =========================================
-   TRUCO (NUEVO MODULO)
-   ========================================= */
-
-async function trucoInit() {
-  document.getElementById('btnTruco').classList.add('selected');
-  document.getElementById('btnLoad').classList.remove('selected');
-  document.getElementById('btnStats').classList.remove('selected');
-  document.getElementById('btnRules').classList.remove('selected');
-  
-  // Ocultamos el Hero Button para dar espacio
-  document.getElementById('heroSection').classList.add('hidden');
-
+/* ===================== GASTOS ===================== */
+async function gastosInit() {
+  setActiveTab('#btnGastos');
+  toggleHeroSection(false);
   app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div></div>';
+  try {
+    const [penas, allParts] = await Promise.all([
+      supaFetch('penas?select=id,fecha,sede,pena_participantes(participantes(id,nombre))&order=fecha.desc&limit=5').then(r=>r.json()),
+      supaFetch('participantes?select=id,nombre,alias&order=nombre.asc').then(r=>r.json())
+    ]);
+    gastosState = { 
+      penaId: penas[0]?.id || null, 
+      expenses: [], 
+      participants: penas[0]?.pena_participantes.map(pp => ({ id: pp.participantes.id, nombre: pp.participantes.nombre })) || [],
+      allParts: allParts, 
+      currentSplitSelection: [] 
+    };
+    renderGastosUI(penas);
+  } catch(e) { console.error(e); alert('Error cargando datos'); }
+}
+function renderGastosUI(penas) {
+    const penasOpts = penas.map(p => `<option value="${p.id}" ${p.id==gastosState.penaId?'selected':''}>${formatDateSafe(p.fecha)} - ${p.sede}</option>`).join('');
+    const payerOpts = gastosState.allParts.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
+    if(gastosState.currentSplitSelection.length === 0 && gastosState.participants.length > 0) gastosState.currentSplitSelection = gastosState.participants.map(p => p.id);
+    
+    const splitChips = `<div class="chips-container" id="splitChips">
+        <div id="chip-todos" class="chip split-chip ${gastosState.currentSplitSelection.length === gastosState.participants.length ? 'selected':''}" onclick="toggleSplitAll()">TODOS</div>
+        ${gastosState.participants.map(p => `<div data-id="${p.id}" class="chip split-chip split-part-chip ${gastosState.currentSplitSelection.includes(p.id) && gastosState.currentSplitSelection.length !== gastosState.participants.length ? 'selected':''}" onclick="toggleSplitOne('${p.id}')">${p.nombre}</div>`).join('')}
+    </div>`;
 
+    const hasExpenses = gastosState.expenses.length > 0;
+    const calcularDisabled = !hasExpenses ? 'disabled style="opacity:0.5;cursor:not-allowed"' : '';
+    const calcularText = !hasExpenses ? 'AGREGA UN GASTO PARA CALCULAR' : 'CALCULAR 💰';
+
+    app.innerHTML = `<div style="animation:fadeIn 0.4s ease"><div class="form-group" style="margin-bottom:20px"><label class="form-label">SELECCIONAR PEÑA</label><select class="pena-selector" onchange="changeGastosPena(this.value, '${encodeURIComponent(JSON.stringify(penas))}')">${penasOpts}</select></div>
+    
+    <div class="item" style="padding:16px; background:var(--surface)">
+        <h4 style="margin:0 0 16px 0; color:var(--gold); font-size:15px; text-transform:uppercase; font-weight:800">💰 NUEVO GASTO</h4>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px">
+            <select id="gastoPayer" class="pena-selector">${payerOpts}</select>
+            <input id="gastoAmount" type="number" placeholder="$" class="pena-selector" />
+        </div>
+        <input id="gastoDesc" placeholder="Descripción (opcional)" class="pena-selector" style="margin-bottom:10px" />
+        <div style="margin-bottom:14px"><label class="form-label" style="margin-bottom:6px">DIVIDIR ENTRE:</label>${splitChips}</div>
+        <button onclick="addExpense()" class="btn-main" style="width:100%; padding:10px; font-size:14px; background:var(--gold); color:#000; box-shadow:0 4px 15px rgba(244,185,66,0.3)">AGREGAR GASTO</button>
+    </div>
+
+    <div id="expensesList"></div>
+    <div id="partialTotal"></div>
+
+    <button onclick="calculateSplit()" class="btn-main btn-save" style="margin-top:0; width:100%; padding:16px; font-size:16px" ${calcularDisabled}>${calcularText}</button>
+    <div id="splitResult" style="margin-top:24px"></div></div>`;
+    renderExpensesList();
+    updateCalcularButton();
+}
+
+function maybeAddExpense(event) {
+    if (event.key === 'Enter' || event.type === 'keyup') {
+        const amount = parseFloat($('#gastoAmount').value);
+        if (amount && amount > 0) {
+            addExpense();
+        }
+    }
+}
+
+function changeGastosPena(id, penasStr) { 
+  const penas = JSON.parse(decodeURIComponent(penasStr)); 
+  const p = penas.find(x => x.id == id); 
+  if(p) { 
+    gastosState.penaId = id; 
+    gastosState.participants = p.pena_participantes.map(pp => ({ id: pp.participantes.id, nombre: pp.participantes.nombre })); 
+    gastosState.currentSplitSelection = []; 
+    renderGastosUI(penas); 
+  } 
+}
+
+function toggleSplitAll() { 
+  gastosState.currentSplitSelection = gastosState.participants.map(p => p.id); 
+  updateSplitUI(); 
+}
+
+function toggleSplitOne(id) { 
+  if(gastosState.currentSplitSelection.length === gastosState.participants.length) {
+    gastosState.currentSplitSelection = [];
+  }
+  const idx = gastosState.currentSplitSelection.indexOf(id); 
+  if(idx > -1) gastosState.currentSplitSelection.splice(idx, 1); 
+  else gastosState.currentSplitSelection.push(id); 
+  
+  if(gastosState.currentSplitSelection.length === 0) toggleSplitAll(); 
+  else updateSplitUI(); 
+}
+
+function updateSplitUI() { 
+  const allSelected = gastosState.currentSplitSelection.length === gastosState.participants.length; 
+  const todosChip = $('#chip-todos');
+  if(todosChip) todosChip.classList.toggle('selected', allSelected);
+
+  $$('.split-part-chip').forEach(c => {
+    const id = c.dataset.id;
+    c.classList.toggle('selected', !allSelected && gastosState.currentSplitSelection.includes(id));
+  });
+}
+
+function addExpense() {
+  const payerId = $('#gastoPayer').value; 
+  const amount = parseFloat($('#gastoAmount').value); 
+  const desc = $('#gastoDesc').value.trim() || 'Varios';
+  if(!amount || amount <= 0) return alert('Ingresá un monto válido');
+  
+  gastosState.expenses.push({ 
+    payerId, 
+    payerName: gastosState.allParts.find(x => x.id == payerId)?.nombre, 
+    amount, 
+    desc, 
+    involvedIds: [...gastosState.currentSplitSelection] 
+  });
+  
+  $('#gastoAmount').value = ''; 
+  $('#gastoDesc').value = ''; 
+  
+  renderExpensesList();
+  updateCalcularButton();
+  renderPartialTotal();
+}
+
+function renderExpensesList() {
+  const container = $('#expensesList');
+
+  if(!gastosState.expenses.length) {
+    container.innerHTML = '';
+    updateCalcularButton();
+    renderPartialTotal();
+    return;
+  }
+  
+  let html = `<div style="background:var(--surface); border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.05)">
+    <div style="display:grid; grid-template-columns: 1fr 1.5fr 1.5fr 0.8fr 40px; gap:0; background:rgba(117,170,219,0.08); padding:12px 14px; border-bottom:1px solid rgba(255,255,255,0.08)">
+      <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--celeste); font-weight:700">Emisor</span>
+      <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--celeste); font-weight:700">Descripción</span>
+      <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--celeste); font-weight:700">Dividir entre</span>
+      <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--celeste); font-weight:700; text-align:right">Monto</span>
+      <span></span>
+    </div>`;
+  
+  gastosState.expenses.forEach((e, idx) => {
+    const isAll = e.involvedIds.length === gastosState.participants.length;
+    const involvedNames = isAll ? 'Todos' : e.involvedIds.map(id => {
+      const p = gastosState.allParts.find(x => x.id == id);
+      return p ? p.nombre : '';
+    }).filter(n => n).join(', ');
+    
+    html += `<div style="display:grid; grid-template-columns: 1fr 1.5fr 1.5fr 0.8fr 40px; gap:0; padding:14px; border-bottom:1px solid rgba(255,255,255,0.03); transition:background 0.2s; align-items:center" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+      <span style="font-size:13px; color:var(--text); font-weight:600">${e.payerName}</span>
+      <span style="font-size:13px; color:var(--text-muted)">${e.desc}</span>
+      <span style="font-size:12px; color:var(--text-muted); opacity:0.8">${involvedNames}</span>
+      <span style="color:var(--gold); font-weight:700; font-size:14px; text-align:right">$${e.amount}</span>
+      <span style="color:#ff6b6b; cursor:pointer; font-weight:bold; font-size:14px; opacity:0.6; transition:opacity 0.2s; text-align:right" onclick="removeExpense(${idx})" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">✕</span>
+    </div>`;
+  });
+  
+  html += `</div>`;
+  container.innerHTML = html;
+  updateCalcularButton();
+  renderPartialTotal();
+}
+
+function renderPartialTotal() {
+  const container = $('#partialTotal');
+  if (!container) return;
+  
+  if (!gastosState.expenses.length) {
+    container.innerHTML = '';
+    return;
+  }
+  
+  let total = 0;
+  gastosState.expenses.forEach(e => { total += e.amount; });
+  
+  container.innerHTML = `
+    <div style="background:rgba(244,185,66,0.05); border:1px solid rgba(244,185,66,0.15); border-radius:12px; padding:14px; margin-bottom:20px; margin-top:20px; animation:fadeIn 0.3s ease">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <span style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); font-weight:700">Total</span>
+        <span style="font-size:18px; font-weight:800; color:var(--gold)">$${total}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderSplitChips() {
+  const allSelected = gastosState.currentSplitSelection.length === gastosState.participants.length;
+  return `<div class="chips-container" id="splitChips">
+        <div id="chip-todos" class="chip split-chip ${allSelected ? 'selected':''}" onclick="toggleSplitAll()">TODOS</div>
+        ${gastosState.participants.map(p => `<div data-id="${p.id}" class="chip split-chip split-part-chip ${!allSelected && gastosState.currentSplitSelection.includes(p.id) ? 'selected':''}" onclick="toggleSplitOne('${p.id}')">${p.nombre}</div>`).join('')}
+    </div>`;
+}
+
+function updateCalcularButton() {
+  const btn = $('button[onclick="calculateSplit()"]');
+  if (!btn) return;
+  const hasExpenses = gastosState.expenses.length > 0;
+  btn.disabled = !hasExpenses;
+  btn.style.opacity = hasExpenses ? '1' : '0.5';
+  btn.style.cursor = hasExpenses ? 'pointer' : 'not-allowed';
+  btn.textContent = hasExpenses ? 'CALCULAR 💰' : 'AGREGA UN GASTO PARA CALCULAR';
+}
+
+function removeExpense(idx) { gastosState.expenses.splice(idx, 1); renderExpensesList(); updateCalcularButton(); renderPartialTotal(); }
+function calculateSplit() {
+  if(!gastosState.expenses.length) return alert('No hay gastos');
+  let balances = {}; 
+  gastosState.participants.forEach(p => balances[p.id] = { name: p.nombre, balance: 0, alias: gastosState.allParts.find(ap=>ap.id===p.id)?.alias || '' });
+  let total = 0;
+  gastosState.expenses.forEach(e => {
+    total += e.amount;
+    if(balances[e.payerId]) balances[e.payerId].balance += e.amount;
+    const share = e.amount / e.involvedIds.length;
+    e.involvedIds.forEach(id => { if(balances[id]) balances[id].balance -= share; });
+  });
+
+  let debtors = [], creditors = [];
+  for (const [id, data] of Object.entries(balances)) {
+    if (data.balance < -0.01) debtors.push({ id, name: data.name, amount: data.balance });
+    else if (data.balance > 0.01) creditors.push({ id, name: data.name, amount: data.balance, alias: data.alias });
+  }
+  debtors.sort((a,b) => a.amount - b.amount); creditors.sort((a,b) => b.amount - a.amount);
+
+  let transactions = []; let i = 0, j = 0;
+  while (i < debtors.length && j < creditors.length) {
+    let debtor = debtors[i]; let creditor = creditors[j];
+    let amount = Math.min(Math.abs(debtor.amount), creditor.amount);
+    const aliasText = creditor.alias ? `<br><span style="font-size:11px;color:var(--text-muted);font-weight:400">Alias: ${creditor.alias}</span>` : '';
+    transactions.push(`<div style="margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px"><b>${debtor.name}</b> paga a <b>${creditor.name}</b>: <span style="color:var(--gold);font-weight:bold;float:right">$${Math.round(amount)}</span>${aliasText}</div>`);
+    debtor.amount += amount; creditor.amount -= amount;
+    if (Math.abs(debtor.amount) < 0.01) i++; if (creditor.amount < 0.01) j++;
+  }
+
+  const resDiv = $('#splitResult');
+  resDiv.innerHTML = `
+    <div id="ticketResult">
+      <h3 style="margin:0 0 15px 0; color:var(--text); text-align:center; text-transform:uppercase; letter-spacing:2px">Resumen de Gastos</h3>
+      <div style="display:flex; justify-content:center; margin-bottom:15px; font-size:16px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px">
+        <span>Total Gastado: <b style="color:var(--gold)">$${total}</b></span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px; font-size:14px">
+        ${transactions.join('')}
+      </div>
+      <div class="ticket-brand">
+        <span style="font-size:12px;font-weight:700;color:var(--celeste)">GENERADO POR PEÑAS ROSARINAS APP</span>
+      </div>
+    </div>
+    <button onclick="shareTicket()" class="btn-main" style="background:var(--surface-light); color:var(--celeste); margin-top:15px">Compartir Imagen 📸</button>
+  `;
+  resDiv.scrollIntoView({behavior: "smooth"});
+}
+
+function shareTicket() {
+  const element = $('#ticketResult');
+  html2canvas(element, { backgroundColor: '#1c2b38', scale: 2 }).then(canvas => {
+    canvas.toBlob(blob => {
+      const file = new File([blob], "gastos_pena.png", { type: "image/png" });
+      if (navigator.share) {
+        navigator.share({ files: [file], title: 'Gastos Peña', text: 'Resumen de gastos.' }).catch(console.error);
+      } else {
+        const link = document.createElement('a'); link.download = 'gastos.png'; link.href = canvas.toDataURL(); link.click();
+      }
+    });
+  });
+}
+
+/* ===================== TRUCO ===================== */
+async function trucoInit() {
+  setActiveTab('#btnTruco');
+  toggleHeroSection(false);
+  app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div></div>';
   try {
     const [penas, parts] = await Promise.all([
       supaFetch('penas?select=id,fecha,sede&order=fecha.desc&limit=5').then(r=>r.json()),
       supaFetch('participantes?select=id,nombre&order=nombre.asc').then(r=>r.json())
     ]);
-
     renderTrucoSetup(penas, parts);
   } catch(e) { console.error(e); alert('Error cargando datos'); }
 }
-
 function renderTrucoSetup(penas, participantes) {
   trucoState = { penaId: penas[0]?.id, nosotros: [], ellos: [], puntosNos: 0, puntosEllos: 0 };
-
-  app.innerHTML = `
-    <div class="truco-container">
-      <h2 style="color:var(--gold);text-align:center;text-transform:uppercase;font-size:16px;letter-spacing:2px;margin-bottom:20px">Nuevo Partido</h2>
-      
-      <div class="form-group">
-        <label class="form-label">SELECCIONAR PEÑA</label>
-        <select id="trucoPenaSelect" onchange="trucoState.penaId=this.value">
-          ${penas.map(p => `<option value="${p.id}">${formatDateSafe(p.fecha)} - ${p.sede}</option>`).join('')}
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">NOSOTROS (Máx 3)</label>
-        <div class="chips-container" id="chipsNos">
-          ${participantes.map(p => `<div class="chip" onclick="toggleTrucoPlayer(this, 'nosotros', '${p.id}', '${p.nombre}')">${p.nombre}</div>`).join('')}
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">ELLOS (Máx 3)</label>
-        <div class="chips-container" id="chipsEllos">
-          ${participantes.map(p => `<div class="chip" onclick="toggleTrucoPlayer(this, 'ellos', '${p.id}', '${p.nombre}')">${p.nombre}</div>`).join('')}
-        </div>
-      </div>
-
-      <button onclick="startTrucoMatch()" class="btn-main btn-save" style="margin-top:20px">
-        JUGAR ♣️
-      </button>
-    </div>
-  `;
+  app.innerHTML = `<div class="truco-container"><h2 style="color:var(--gold);text-align:center;text-transform:uppercase;font-size:16px;letter-spacing:2px;margin-bottom:20px">Nuevo Partido</h2><div class="form-group"><label class="form-label">SELECCIONAR PEÑA</label><select id="trucoPenaSelect" class="pena-selector" onchange="trucoState.penaId=this.value">${penas.map(p => `<option value="${p.id}">${formatDateSafe(p.fecha)} - ${p.sede}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">NOSOTROS (Máx 3)</label><div class="chips-container" id="chipsNos">${participantes.map(p => `<div class="chip" onclick="toggleTrucoPlayer(this, 'nosotros', '${p.id}', '${p.nombre}')">${p.nombre}</div>`).join('')}</div></div><div class="form-group"><label class="form-label">ELLOS (Máx 3)</label><div class="chips-container" id="chipsEllos">${participantes.map(p => `<div class="chip" onclick="toggleTrucoPlayer(this, 'ellos', '${p.id}', '${p.nombre}')">${p.nombre}</div>`).join('')}</div></div><button onclick="startTrucoMatch()" class="btn-main btn-save" style="margin-top:20px; width:100%">JUGAR ⚔️</button></div>`;
+}
+function toggleTrucoPlayer(el, equipo, id, nombre) { 
+  const isSelected = el.classList.contains('selected'); 
+  const arr = trucoState[equipo]; 
+  if(isSelected) { 
+    const idx = arr.findIndex(x => x.id === id); 
+    if(idx > -1) arr.splice(idx, 1); 
+    el.classList.remove('selected'); 
+  } else { 
+    if(arr.length >= 3) return alert('Máximo 3'); 
+    const otro = equipo === 'nosotros' ? 'ellos' : 'nosotros'; 
+    if(trucoState[otro].find(x => x.id === id)) return alert('Ya está en el otro equipo'); 
+    arr.push({ id, nombre }); 
+    el.classList.add('selected'); 
+  } 
 }
 
-function toggleTrucoPlayer(el, equipo, id, nombre) {
-  const isSelected = el.classList.contains('selected');
-  const arr = trucoState[equipo];
+function startTrucoMatch() { 
+  if(!trucoState.penaId) return alert('Selecciona peña'); 
+  if(!trucoState.nosotros.length || !trucoState.ellos.length) return alert('Faltan jugadores'); 
+  window.history.pushState({ screen: 'trucoBoard' }, '', '#truco-board'); 
+  renderTrucoBoard(); 
+}
 
-  // Si ya está seleccionado, lo sacamos
-  if(isSelected) {
-    const idx = arr.findIndex(x => x.id === id);
-    if(idx > -1) arr.splice(idx, 1);
-    el.classList.remove('selected');
-  } else {
-    // Validar max 3
-    if(arr.length >= 3) return alert('Máximo 3 jugadores por equipo');
-    // Validar que no esté en el otro equipo
-    const otro = equipo === 'nosotros' ? 'ellos' : 'nosotros';
-    if(trucoState[otro].find(x => x.id === id)) return alert('Ya está en el otro equipo');
-    
-    arr.push({ id, nombre });
-    el.classList.add('selected');
+function goBackFromTrucoBoard() {
+  if (history.state && history.state.screen === 'trucoBoard') {
+    history.back();
   }
+  trucoInit();
 }
 
-function startTrucoMatch() {
-  if(!trucoState.penaId) return alert('Selecciona una peña');
-  if(trucoState.nosotros.length === 0 || trucoState.ellos.length === 0) return alert('Elige al menos un jugador por equipo');
-  
-  renderTrucoBoard();
+function renderTrucoBoard() { 
+  const nNos = trucoState.nosotros.map(x=>x.nombre).join(', '); 
+  const nEllos = trucoState.ellos.map(x=>x.nombre).join(', '); 
+  app.innerHTML = `<div class="truco-container"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><button class="btn-back-circle" onclick="goBackFromTrucoBoard()">←</button><div style="font-size:12px;color:var(--text-muted);font-weight:700">A 30 PUNTOS</div><div style="width:36px"></div></div><div class="truco-board"><div class="truco-col"><div class="truco-header">NOSOTROS</div><div style="font-size:11px;color:var(--celeste);margin-bottom:8px;text-align:center;min-height:30px">${nNos}</div><div class="fosforos-area" id="areaNos"></div><div class="truco-controls"><button class="btn-score btn-minus" onclick="updateScore('nos', -1)">-</button><button class="btn-score btn-plus" onclick="updateScore('nos', 1)">+</button></div></div><div class="truco-col"><div class="truco-header">ELLOS</div><div style="font-size:11px;color:var(--celeste);margin-bottom:8px;text-align:center;min-height:30px">${nEllos}</div><div class="fosforos-area" id="areaEllos"></div><div class="truco-controls"><button class="btn-score btn-minus" onclick="updateScore('ellos', -1)">-</button><button class="btn-score btn-plus" onclick="updateScore('ellos', 1)">+</button></div></div></div></div>`; 
+  drawPhosphoros(); 
 }
 
-function renderTrucoBoard() {
-  // Nombres concatenados para mostrar
-  const nNos = trucoState.nosotros.map(x=>x.nombre).join(', ');
-  const nEllos = trucoState.ellos.map(x=>x.nombre).join(', ');
-
-  app.innerHTML = `
-    <div class="truco-container">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <button class="btn-back-circle" onclick="trucoInit()">←</button>
-        <div style="font-size:12px;color:var(--text-muted);font-weight:700">A 30 PUNTOS</div>
-        <div style="width:36px"></div>
-      </div>
-
-      <div class="truco-board">
-        <!-- COLUMNA NOSOTROS -->
-        <div class="truco-col">
-          <div class="truco-header">NOSOTROS</div>
-          <div style="font-size:11px;color:var(--celeste);margin-bottom:8px;text-align:center;min-height:30px">${nNos}</div>
-          
-          <div class="fosforos-area" id="areaNos"></div>
-          
-          <div class="truco-controls">
-            <button class="btn-score btn-minus" onclick="updateScore('nos', -1)">-</button>
-            <button class="btn-score btn-plus" onclick="updateScore('nos', 1)">+</button>
-          </div>
-        </div>
-
-        <!-- COLUMNA ELLOS -->
-        <div class="truco-col">
-          <div class="truco-header">ELLOS</div>
-          <div style="font-size:11px;color:var(--celeste);margin-bottom:8px;text-align:center;min-height:30px">${nEllos}</div>
-          
-          <div class="fosforos-area" id="areaEllos"></div>
-          
-          <div class="truco-controls">
-            <button class="btn-score btn-minus" onclick="updateScore('ellos', -1)">-</button>
-            <button class="btn-score btn-plus" onclick="updateScore('ellos', 1)">+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  drawPhosphoros();
+function updateScore(team, delta) { 
+  if(team === 'nos') { 
+    const nuevo = trucoState.puntosNos + delta; 
+    if(nuevo >= 0 && nuevo <= 30) trucoState.puntosNos = nuevo; 
+  } else { 
+    const nuevo = trucoState.puntosEllos + delta; 
+    if(nuevo >= 0 && nuevo <= 30) trucoState.puntosEllos = nuevo; 
+  } 
+  drawPhosphoros(); 
+  checkWin(); 
 }
 
-function updateScore(team, delta) {
-  if(team === 'nos') {
-    const nuevo = trucoState.puntosNos + delta;
-    if(nuevo < 0 || nuevo > 30) return;
-    trucoState.puntosNos = nuevo;
-  } else {
-    const nuevo = trucoState.puntosEllos + delta;
-    if(nuevo < 0 || nuevo > 30) return;
-    trucoState.puntosEllos = nuevo;
-  }
-  drawPhosphoros();
-  checkWin();
+function checkWin() { 
+  if(trucoState.puntosNos === 30 || trucoState.puntosEllos === 30) { 
+    const ganador = trucoState.puntosNos === 30 ? 'NOSOTROS' : 'ELLOS'; 
+    setTimeout(() => { 
+      app.innerHTML = `<div style="text-align:center;padding:40px;animation:fadeIn 0.5s"><div style="font-size:60px;margin-bottom:20px">🏆</div><h2 style="color:var(--gold);text-transform:uppercase;margin-bottom:10px">GANADOR: ${ganador}</h2><p style="color:var(--text-muted);margin-bottom:40px">Nosotros: ${trucoState.puntosNos} - Ellos: ${trucoState.puntosEllos}</p><div style="display:flex;gap:10px;width:100%"><button onclick="saveTrucoResult('${ganador}')" class="btn-main btn-save" style="flex:1">Guardar Partido</button><button onclick="trucoInit()" class="btn-main btn-cancel" style="flex:1">Descartar</button></div></div>`; 
+    }, 200); 
+  } 
 }
 
-function checkWin() {
-  if(trucoState.puntosNos === 30 || trucoState.puntosEllos === 30) {
-    const ganador = trucoState.puntosNos === 30 ? 'NOSOTROS' : 'ELLOS';
-    // Small delay to render last point
-    setTimeout(() => {
-        app.innerHTML = `
-        <div style="text-align:center;padding:40px;animation:fadeIn 0.5s">
-            <div style="font-size:60px;margin-bottom:20px">🏆</div>
-            <h2 style="color:var(--gold);text-transform:uppercase;margin-bottom:10px">GANARON ${ganador}</h2>
-            <p style="color:var(--text-muted);margin-bottom:40px">
-                Nosotros: ${trucoState.puntosNos} - Ellos: ${trucoState.puntosEllos}
-            </p>
-            <button onclick="saveTrucoResult('${ganador}')" class="btn-main btn-save">Guardar Partido</button>
-            <button onclick="trucoInit()" class="btn-main btn-cancel" style="margin-top:10px">Descartar</button>
-        </div>
-        `;
-    }, 200);
-  }
+async function saveTrucoResult(ganador) { 
+  app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div><div style="margin-top:20px">Guardando...</div></div>'; 
+  try { 
+    const partidoBody = { 
+      pena_id: trucoState.penaId, 
+      puntos_nosotros: trucoState.puntosNos, 
+      puntos_ellos: trucoState.puntosEllos, 
+      ganador: ganador 
+    }; 
+    const rPart = await supaFetch('truco_partidos', { 
+      method: 'POST', 
+      headers: {'Content-Type': 'application/json', 'Prefer': 'return=representation'}, 
+      body: JSON.stringify(partidoBody) 
+    }); 
+    if(!rPart.ok) throw new Error('Error guardando'); 
+    const partido = (await rPart.json())[0]; 
+    const jugadoresData = [ 
+      ...trucoState.nosotros.map(p => ({ partido_id: partido.id, participante_id: p.id, equipo: 'NOSOTROS' })), 
+      ...trucoState.ellos.map(p => ({ partido_id: partido.id, participante_id: p.id, equipo: 'ELLOS' })) 
+    ]; 
+    await supaFetch('truco_jugadores', { 
+      method: 'POST', 
+      headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify(jugadoresData) 
+    }); 
+    alert('Partido guardado'); 
+    trucoInit(); 
+  } catch(e) { 
+    console.error(e); 
+    alert('Error: ' + e.message); 
+    trucoInit(); 
+  } 
 }
-
-async function saveTrucoResult(ganador) {
-    app.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div><div style="margin-top:20px">Guardando...</div></div>';
-    
-    try {
-        // 1. Insertar partido
-        const partidoBody = {
-            pena_id: trucoState.penaId,
-            puntos_nosotros: trucoState.puntosNos,
-            puntos_ellos: trucoState.puntosEllos,
-            ganador: ganador
-        };
-        
-        const rPart = await supaFetch('truco_partidos', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Prefer': 'return=representation'},
-            body: JSON.stringify(partidoBody)
-        });
-        
-        if(!rPart.ok) throw new Error('Error guardando partido');
-        const partido = (await rPart.json())[0];
-        
-        // 2. Insertar jugadores
-        const jugadoresData = [
-            ...trucoState.nosotros.map(p => ({ partido_id: partido.id, participante_id: p.id, equipo: 'NOSOTROS' })),
-            ...trucoState.ellos.map(p => ({ partido_id: partido.id, participante_id: p.id, equipo: 'ELLOS' }))
-        ];
-        
-        await supaFetch('truco_jugadores', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(jugadoresData)
-        });
-        
-        alert('Partido guardado con éxito');
-        trucoInit(); // Volver al inicio de Truco
-        
-    } catch(e) {
-        console.error(e);
-        alert('Error al guardar: ' + e.message);
-        trucoInit();
-    }
-}
-
-// Lógica de dibujado SVG (Estilo Casita Argentina)
-function drawPhosphoros() {
-  const render = (count, containerId) => {
-    const container = document.getElementById(containerId);
-    if(!container) return;
-    container.innerHTML = '';
-    
-    // Cuantos grupos de 5 completos
-    const fullGroups = Math.floor(count / 5);
-    const remainder = count % 5;
-    
-    // Color del trazo
-    const stroke = '#F4B942'; // Gold
-
-    // Función que devuelve el SVG de un grupo
-    const getGroupSVG = (n) => {
-        // n es de 1 a 5
-        let paths = '';
-        // 1: | (lado izq)
-        if(n >= 1) paths += `<line x1="10" y1="10" x2="10" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
-        // 2: | (arriba)
-        if(n >= 2) paths += `<line x1="10" y1="10" x2="30" y2="10" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
-        // 3: | (lado der)
-        if(n >= 3) paths += `<line x1="30" y1="10" x2="30" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
-        // 4: | (abajo - cierra cuadrado)
-        if(n >= 4) paths += `<line x1="10" y1="30" x2="30" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
-        // 5: / (diagonal)
-        if(n >= 5) paths += `<line x1="10" y1="10" x2="30" y2="30" stroke="${stroke}" stroke-width="3" stroke-linecap="round"/>`;
-
-        return `<svg class="fosforo-group" viewBox="0 0 40 40">${paths}</svg>`;
-    };
-
-    // Dibujar grupos llenos
-    for(let i=0; i<fullGroups; i++) {
-        container.innerHTML += getGroupSVG(5);
-    }
-    // Dibujar resto
-    if(remainder > 0) {
-        container.innerHTML += getGroupSVG(remainder);
-    }
-  };
-
-  render(trucoState.puntosNos, 'areaNos');
-  render(trucoState.puntosEllos, 'areaEllos');
-}
+function drawPhosphoros() { const render = (count, containerId) => { const container = document.getElementById(containerId); if(!container) return; container.innerHTML = ''; const fullGroups = Math.floor(count / 5); const remainder = count % 5; const getGroupSVG = (n) => { let paths = ''; const fosforo = (tipX, tipY, endX, endY) => { const dx = endX - tipX; const dy = endY - tipY; const len = Math.sqrt(dx*dx + dy*dy); const rot = Math.atan2(dy, dx) * 180 / Math.PI; return `<g transform="translate(${tipX}, ${tipY}) rotate(${rot})"><defs><linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#deb887"/><stop offset="50%" style="stop-color:#f5deb3"/><stop offset="100%" style="stop-color:#c4a574"/></linearGradient><linearGradient id="tipGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#ff6666"/><stop offset="40%" style="stop-color:#ff4444"/><stop offset="100%" style="stop-color:#cc0000"/></linearGradient><filter id="fosforoShadow"><feDropShadow dx="1" dy="2" stdDeviation="1" flood-opacity="0.3"/></filter></defs><g filter="url(#fosforoShadow)"><ellipse cx="0" cy="0" rx="3.5" ry="2.5" fill="url(#tipGrad)"/><ellipse cx="-0.5" cy="-0.5" rx="1.5" ry="1" fill="rgba(255,255,255,0.4)"/><rect x="2" y="-2" width="${len-4}" height="4" rx="2" fill="url(#bodyGrad)"/></g></g>`; }; if(n >= 1) paths += fosforo(8, 8, 8, 32); if(n >= 2) paths += fosforo(32, 8, 8, 8); if(n >= 3) paths += fosforo(32, 32, 32, 8); if(n >= 4) paths += fosforo(8, 32, 32, 32); if(n >= 5) paths += fosforo(8, 8, 32, 32); return `<svg class="fosforo-group" viewBox="0 0 40 40">${paths}</svg>`; }; const limitFirstHalf = Math.min(3, fullGroups); for(let i=0; i<limitFirstHalf; i++) container.innerHTML += getGroupSVG(5); if(fullGroups < 3 && remainder > 0) container.innerHTML += getGroupSVG(remainder); if(count > 15) { container.innerHTML += `<div class="buenas-divider"></div>`; for(let i=3; i<fullGroups; i++) container.innerHTML += getGroupSVG(5); if(remainder > 0) container.innerHTML += getGroupSVG(remainder); } else if (count === 15) container.innerHTML += `<div class="buenas-divider"></div>`; }; render(trucoState.puntosNos, 'areaNos'); render(trucoState.puntosEllos, 'areaEllos'); }
 
 window.onload=()=>{ 
   if(localStorage.getItem('pena_auth')==='ok' && localStorage.getItem('pena_token')){ 
     document.getElementById('login').style.display='none'; 
     document.getElementById('mainContainer').style.display='block'; 
-    load(); 
-  } else {
-    localStorage.removeItem('pena_auth');
-    localStorage.removeItem('pena_token');
-  }
+    
+    // Navegar según el hash de la URL
+    const hash = window.location.hash.replace('#', '');
+    if (hash && [TAB_TRUCO, TAB_GASTOS, TAB_STATS, TAB_RULES].includes(hash)) {
+      tabHistory.push(TAB_HOME);
+      navigateToTab(hash);
+    } else {
+      load();
+    }
+  } else { 
+    localStorage.removeItem('pena_auth'); 
+    localStorage.removeItem('pena_token'); 
+  } 
 };
+
+/* ===================== FIRMA DIGITAL ===================== */
+let firmaCtx = null;
+let firmaDrawing = false;
+let firmaData = null;
+
+function initFirmaCanvas() {
+  const canvas = $('#firmaCanvas');
+  if(!canvas) return;
+  
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * 2;
+  canvas.height = rect.height * 2;
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  
+  firmaCtx = canvas.getContext('2d');
+  firmaCtx.scale(2, 2);
+  firmaCtx.strokeStyle = '#000';
+  firmaCtx.lineWidth = 3;
+  firmaCtx.lineCap = 'round';
+  firmaCtx.lineJoin = 'round';
+  
+  firmaCtx.fillStyle = '#fff';
+  firmaCtx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  canvas.addEventListener('mousedown', startFirma);
+  canvas.addEventListener('mousemove', drawFirma);
+  canvas.addEventListener('mouseup', stopFirma);
+  canvas.addEventListener('mouseout', stopFirma);
+  canvas.addEventListener('touchstart', handleTouchStart);
+  canvas.addEventListener('touchmove', handleTouchMove);
+  canvas.addEventListener('touchend', stopFirma);
+  
+  loadSavedFirma();
+}
+
+function loadSavedFirma() {
+  const saved = localStorage.getItem('firma_digital');
+  if(saved) {
+    const canvas = $('#firmaCanvas');
+    if(!canvas) return;
+    const img = new Image();
+    img.onload = function() {
+      firmaCtx.drawImage(img, 0, 0, canvas.width / 2, canvas.height / 2);
+    };
+    img.src = saved;
+  }
+}
+
+function getPos(e) {
+  const canvas = $('#firmaCanvas');
+  const rect = canvas.getBoundingClientRect();
+  return { x: (e.clientX - rect.left), y: (e.clientY - rect.top) };
+}
+
+function startFirma(e) {
+  firmaDrawing = true;
+  const pos = getPos(e);
+  firmaCtx.beginPath();
+  firmaCtx.moveTo(pos.x, pos.y);
+}
+
+function drawFirma(e) {
+  if(!firmaDrawing) return;
+  const pos = getPos(e);
+  firmaCtx.lineTo(pos.x, pos.y);
+  firmaCtx.stroke();
+}
+
+function stopFirma() {
+  firmaDrawing = false;
+  if(firmaCtx) firmaCtx.closePath();
+}
+
+function handleTouchStart(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  startFirma({ clientX: touch.clientX, clientY: touch.clientY });
+}
+
+function handleTouchMove(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  drawFirma({ clientX: touch.clientX, clientY: touch.clientY });
+}
+
+function clearFirma() {
+  const canvas = $('#firmaCanvas');
+  if(!canvas || !firmaCtx) return;
+  firmaCtx.fillStyle = '#fff';
+  firmaCtx.fillRect(0, 0, canvas.width, canvas.height);
+  localStorage.removeItem('firma_digital');
+  const preview = $('#firmaPreview');
+  if(preview) preview.innerHTML = '';
+}
+
+async function saveFirma() {
+  const canvas = $('#firmaCanvas');
+  if(!canvas) return;
+  
+  const nombre = prompt('Ingresá tu nombre para la firma:');
+  if(!nombre || !nombre.trim()) {
+    alert('Debés ingresar un nombre');
+    return;
+  }
+  
+  const btn = $('.firma-btn-save');
+  const originalText = btn.textContent;
+  btn.textContent = '⏳ Guardando...';
+  btn.disabled = true;
+  
+  try {
+    const smallCanvas = document.createElement('canvas');
+    smallCanvas.width = canvas.width / 2;
+    smallCanvas.height = canvas.height / 2;
+    const smallCtx = smallCanvas.getContext('2d');
+    smallCtx.drawImage(canvas, 0, 0, smallCanvas.width, smallCanvas.height);
+    
+    const dataUrl = smallCanvas.toDataURL('image/png', 0.85);
+    const blob = await (await fetch(dataUrl)).blob();
+    const fileName = `firma-${Date.now()}-${Math.random().toString(36).slice(2)}.png`;
+    
+    await supaFetch(`storage/v1/object/firmas/${fileName}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'image/png' },
+      body: blob
+    }, true);
+    
+    const firmaUrl = `${SUPABASE_URL}/storage/v1/object/public/firmas/${fileName}`;
+    
+    await supaFetch('firmas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre: nombre.trim(), firma_url: firmaUrl })
+    });
+    
+    clearFirma();
+    btn.textContent = '✅ Guardada!';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 2000);
+    
+    setTimeout(() => loadFirmasRegistradasLibro(), 100);
+    
+  } catch(e) {
+    console.error(e);
+    alert('Error guardando firma: ' + e.message);
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
+async function loadFirmasRegistradasLibro() {
+  const grid = $('#firmasGrid');
+  if(!grid) return;
+  
+  try {
+    const res = await supaFetch('firmas?order=created_at.desc');
+    if(!res.ok) throw new Error('Error fetching');
+    const firmas = await res.json();
+    
+    grid.innerHTML = '';
+    
+    if(firmas && firmas.length) {
+      for(const f of firmas) {
+        const div = document.createElement('div');
+        div.style.cssText = 'background:var(--surface);padding:10px;border-radius:12px;text-align:center;border:1px solid rgba(117,170,219,0.2);cursor:default';
+        
+        const imgContainer = document.createElement('div');
+        imgContainer.style.cssText = 'background:#fff;border-radius:8px;height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;overflow:hidden';
+        
+        const img = document.createElement('img');
+        img.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;opacity:0;transition:opacity 0.3s';
+        img.onload = () => img.style.opacity = '1';
+        
+        imgContainer.appendChild(img);
+        div.appendChild(imgContainer);
+        
+        const name = document.createElement('div');
+        name.textContent = f.nombre;
+        name.style.cssText = 'font-size:12px;font-weight:700;color:#fff;margin-bottom:4px';
+        div.appendChild(name);
+        
+        const date = document.createElement('div');
+        date.textContent = new Date(f.created_at).toLocaleDateString('es-AR');
+        date.style.cssText = 'font-size:10px;color:var(--text-muted)';
+        div.appendChild(date);
+        
+        grid.appendChild(div);
+        loadImageWithAuth(f.firma_url, null, img, null, 'firmas');
+      }
+    } else {
+      grid.innerHTML = '<div style="grid-column:span 2;text-align:center;color:var(--text-muted);font-size:12px;padding:20px">Aún no hay firmas registradas</div>';
+    }
+  } catch(e) {
+    console.warn(e);
+    grid.innerHTML = '<div style="grid-column:span 2;text-align:center;color:#ff6b6b;padding:20px;font-size:12px">Error cargando firmas</div>';
+  }
+}
+
+function parseStorageUrl(url, defaultBucket = 'penas-fotos') {
+  if(url.includes('/storage/v1/object/public/')) {
+    const parts = url.split('/storage/v1/object/public/');
+    const urlParts = parts[1].split('/');
+    return { bucket: urlParts[0], path: urlParts.slice(1).join('/') };
+  } else if(url.includes('/storage/v1/object/')) {
+    const parts = url.split('/storage/v1/object/');
+    const urlParts = parts[1].split('/');
+    return { bucket: urlParts[0], path: urlParts.slice(1).join('/') };
+  }
+  return { bucket: defaultBucket, path: url };
+}
+
+async function loadImageWithAuth(url, container, imgElement, fallbackContent = null, defaultBucket = 'penas-fotos') {
+  try {
+    const { bucket, path } = parseStorageUrl(url, defaultBucket);
+    const res = await supaFetch(`storage/v1/object/${bucket}/${path}`, {}, true);
+    if(!res.ok) throw new Error('Error loading');
+    
+    const blob = await res.blob();
+    const imgUrl = URL.createObjectURL(blob);
+    
+    if(imgElement) {
+      imgElement.src = imgUrl;
+    } else if(container) {
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.style.cssText = 'max-width:100%;max-height:100%;object-fit:cover';
+      container.innerHTML = '';
+      container.appendChild(img);
+      container.style.cursor = 'pointer';
+      container.onclick = () => openGallerySingleWithAuth(url, defaultBucket);
+    }
+  } catch(e) {
+    console.warn('No se pudo cargar imagen:', url, e);
+    if(fallbackContent && container) {
+      container.innerHTML = fallbackContent;
+    }
+  }
+}
+
+function openGallerySingleWithAuth(url, defaultBucket = null) {
+  $('#modal').style.display = 'flex';
+  $('#modal').classList.add('active');
+  $('#modalCounter').style.display = 'none';
+  $('#modalThumbs').innerHTML = '';
+  
+  const img = $('#modalImg');
+  img.style.opacity = '0';
+  
+  const { bucket, path } = parseStorageUrl(url, defaultBucket || url);
+  
+  supaFetch(`storage/v1/object/${bucket}/${path}`, {}, true)
+    .then(res => res.blob())
+    .then(blob => {
+      img.src = URL.createObjectURL(blob);
+      img.onload = () => { img.style.opacity = '1'; };
+    })
+    .catch(e => {
+      console.error(e);
+      img.style.opacity = '1';
+      img.src = '';
+      alert('Error cargando imagen');
+    });
+}
+
+function openGallerySingle(url) {
+  document.getElementById('modal').style.display = 'flex';
+  document.getElementById('modal').classList.add('active');
+  document.getElementById('modalImg').src = url;
+  document.getElementById('modalCounter').style.display = 'none';
+  document.getElementById('modalThumbs').innerHTML = '';
+}
 </script>
 </body>
 </html>
