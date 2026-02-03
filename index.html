@@ -1,4 +1,4 @@
-<!-- PEÑAS ROSARINAS -->
+<!-- PEÑAS ROSARINAS - CON EFECTO DE HUMO -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -899,8 +899,12 @@
         opacity: 0.4;
       }
       50% { 
-        transform: translate(-50%, -50%) scale(1.3); 
-        box-shadow: 0 0 15px #ffcc00, 0 0 25px #ffaa00, 0 0 45px rgba(255, 220, 0, 1);
+        transform: translate(-50%, -50%) scale(1.5); 
+        box-shadow: 
+          0 0 20px #ffcc00, 
+          0 0 40px #ffaa00, 
+          0 0 60px rgba(255, 230, 0, 1),
+          0 0 80px rgba(255, 255, 255, 0.4);
         opacity: 1;
       }
     }
