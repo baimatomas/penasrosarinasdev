@@ -61,7 +61,7 @@ function updateSmokeForceTargetFromGravity(gx, gy) {
   const magnitude = Math.hypot(mapped.x, mapped.y);
   if (magnitude < CONFIG.minGravityMagnitude) return;
 
-  const up = normalizeVector(-mapped.x, -mapped.y, smokeForceTarget);
+  const up = normalizeVector(mapped.x, -mapped.y, smokeForceTarget);
   smokeForceTarget.x = up.x;
   smokeForceTarget.y = up.y;
 }
